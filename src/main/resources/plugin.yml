@@ -1,0 +1,30 @@
+name: Pissaddon
+version: ${project.version}
+main: me.scb.pissaddon.pissaddon.Pissaddon
+api-version: 1.16
+depend: [ ProjectKorra ]
+permissions:
+  Pissaddon.player:
+    default: true
+    description: Addon Ability Perms
+children:
+  bending.ability.GoldenShower: true
+  bending.ability.KidneyStones: true
+  bending.ability.Leak: true
+  bending.ability.Miscontrol: true
+  bending.ability.PeeDash: true
+  bending.ability.PeeDrain: true
+  bending.ability.PeeRocket: true
+  bending.ability.PeeSpray: true
+  bending.ability.PH: true
+  bending.ability.PissSlide: true
+  bending.ability.PissSplatter: true
+  bending.ability.PissStream: true
+  bending.ability.PissSwirl: true
+  bending.ability.Splash: true
+  bending.ability.SplitStream: true
+  bending.ability.ToiletExplode: true
+  bending.ability.UrinalInfection: true
+  bending.ability.Urinate: true
+  bending.ability.UTI: true
+  bending.ability.WaterSports: true
