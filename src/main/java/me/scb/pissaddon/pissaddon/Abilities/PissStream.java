@@ -60,16 +60,15 @@ public class PissStream extends PissAbility implements AddonAbility {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
             this.remove();
-        } else if (this.distancetraveled > 45.0D) {
+        } else if (this.distancetraveled > distance) {
             this.remove();
         } else {
             this.affectTargets();
 
             GeneralMethods.displayColoredParticle("ffff00", this.location, 1, 0.1D, 0.1D, 0.1D);
             if (ThreadLocalRandom.current().nextInt(6) == 0) {
+                this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
             }
-
-            this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
             this.location.add(this.direction);
             this.distancetraveled += this.direction.length();
         }

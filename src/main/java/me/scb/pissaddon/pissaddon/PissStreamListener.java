@@ -2,9 +2,12 @@ package me.scb.pissaddon.pissaddon;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.ability.CoreAbility;
+import com.projectkorra.projectkorra.event.BendingReloadEvent;
 import me.scb.pissaddon.pissaddon.Abilities.*;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -46,6 +49,9 @@ public class PissStreamListener implements Listener {
             if (bPlayer.getBoundAbilityName().equalsIgnoreCase("UTI")) {
                 new UTI(player);
             }
+            if (bPlayer.getBoundAbilityName().equalsIgnoreCase("SplitStream")) {
+                new SplitStream(player);
+            }
         }
     }
 
@@ -69,6 +75,10 @@ public class PissStreamListener implements Listener {
                 }
             }
         }
+    }
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPKReload(final BendingReloadEvent event) {
+        Bukkit.getScheduler().runTaskLater(Pissaddon.getPlugin(), Pissaddon::reload, 1);
     }
 
 }

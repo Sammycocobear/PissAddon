@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import me.scb.pissaddon.pissaddon.Config.Config;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissStreamListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
@@ -42,8 +43,8 @@ public class PissSlide extends PissAbility implements AddonAbility {
         this.start();
     }
     private void setfields() {
-        this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Sammycocobear.PissSlide.cooldown");
-        this.distance = ConfigManager.getConfig().getInt("ExtraAbilities.Sammycocobear.PissSlide.distance");
+        this.cooldown = Config.ConfigPath.getConfig().getLong("ExtraAbilities.Sammycocobear.PissSlide.cooldown");
+        this.distance = Config.ConfigPath.getConfig().getInt("ExtraAbilities.Sammycocobear.PissSlide.distance");
     }
 
     public void progress() {
@@ -59,9 +60,8 @@ public class PissSlide extends PissAbility implements AddonAbility {
             this.player.setGliding(true);
             GeneralMethods.displayColoredParticle("FFA500", this.location, 8, 0.1D, 0.1D, 0.1D);
             if (ThreadLocalRandom.current().nextInt(6) == 0) {
+                this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
             }
-
-            this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
             this.location.add(this.direction);
             this.distancetraveled += this.direction.length();
         }
