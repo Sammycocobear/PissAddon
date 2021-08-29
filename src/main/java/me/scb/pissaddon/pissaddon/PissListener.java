@@ -13,8 +13,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-public class PissStreamListener implements Listener {
-    public PissStreamListener() {
+public class PissListener implements Listener {
+    public PissListener() {
     }
 
     @EventHandler
@@ -39,9 +39,6 @@ public class PissStreamListener implements Listener {
             }
             if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PeeDrain")) {
                 new PeeDrain(player);
-            }
-            if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PeeRocket")) {
-                new PeeRocket(player);
             }
             if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PeeDash")) {
                 new PeeDash(player);
@@ -72,6 +69,9 @@ public class PissStreamListener implements Listener {
                 }
                 if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PeeRocket")) {
                     new PeeRocket(player);
+                }
+                if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Tinkle")) {
+                    new Tinkle(player);
                 }
             }
         }

@@ -3,7 +3,7 @@ package me.scb.pissaddon.pissaddon.Abilities;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 public class PeeRocket extends PissAbility implements AddonAbility {
     private Location location;
     private long cooldown;
-    private PissStreamListener listener;
+    private PissListener listener;
     private long time;
     private long duration;
 
@@ -90,7 +90,7 @@ public class PeeRocket extends PissAbility implements AddonAbility {
 
     @Override
     public void load() {
-        this.listener = new PissStreamListener();
+        this.listener = new PissListener();
 
 
     }

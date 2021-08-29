@@ -7,7 +7,7 @@ import com.projectkorra.projectkorra.ability.util.ComboManager;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -19,11 +19,12 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
     private final int damage;
     private Location location;
     private long cooldown;
-    private PissStreamListener listener;
+    private PissListener listener;
     private long time;
     private long duration;
     private  double t;
     private Vector direction;
+    private Location loc;
 
 
     public ToiletExplode(Player player) {
@@ -32,6 +33,7 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
         this.cooldown = 3000;
         this.duration = 2000;
         this.t = 0;
+        loc = player.getLocation();
         this.hurt = new HashSet();
         this.damage = 5;
         this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
@@ -52,9 +54,7 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
         }
         player.setFallDistance(0);
         }
-        public void math() {
-            Location loc = player.getLocation();
-            t += 0.1 * Math.PI;
+        public void math() {         t += 0.1 * Math.PI;
             this.affectTargets();
             for (double theta = 0; theta <= 2 * Math.PI; theta = theta + Math.PI / 32) {
                 double x = t * Math.cos(theta);

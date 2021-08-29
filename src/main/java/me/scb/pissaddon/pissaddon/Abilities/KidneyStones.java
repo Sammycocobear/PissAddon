@@ -1,22 +1,18 @@
 package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
-import net.minecraft.server.v1_16_R3.BlockBase;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -32,7 +28,7 @@ public class KidneyStones extends PissAbility implements AddonAbility {
     private double damage;
     private int distance;
     private Permission perm;
-    private PissStreamListener listener;
+    private PissListener listener;
     private Location location;
     private Vector direction;
     private double distancetraveled;
@@ -45,12 +41,14 @@ public class KidneyStones extends PissAbility implements AddonAbility {
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.hurt = new HashSet();
         this.perm = new Permission("bending.ability.KidneyStones");
+        this.setfields();
+        start();
 
     }
     private void setfields() {
-        this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Sammycocobear.KidneyStones.cooldown");
-        this.distance = ConfigManager.getConfig().getInt("ExtraAbilities.Sammycocobear.KidneyStones.distance");
-        this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Sammycocobear.KidneyStones.damage");
+        this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.KidneyStones.cooldown");
+        this.distance =  Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.KidneyStones.distance");
+        this.damage =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.KidneyStones.damage");
     }
 
     @Override
@@ -120,7 +118,7 @@ public class KidneyStones extends PissAbility implements AddonAbility {
 
     @Override
     public void load() {
-        this.listener = new PissStreamListener();
+        this.listener = new PissListener();
         ConfigManager.getConfig().addDefault("ExtraAbilities.Sammycocobear.KidneyStones.cooldown", 2000L);
         ConfigManager.getConfig().addDefault("ExtraAbilities.Sammycocobear.KidneyStones.distance", 10.0D);
         ConfigManager.getConfig().addDefault("ExtraAbilities.Sammycocobear.KidneyStones.damage", 5.0D);

@@ -3,7 +3,6 @@ package me.scb.pissaddon.pissaddon;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import me.scb.pissaddon.pissaddon.CMDS.cmds;
 import me.scb.pissaddon.pissaddon.Config.ConfigPath;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -27,7 +26,7 @@ public final class Pissaddon extends JavaPlugin {
         new ConfigPath();
         CoreAbility.registerPluginAbilities(this, "me.scb.pissaddon.pissaddon.Abilities");
         new cmds();
-        this.getServer().getPluginManager().registerEvents(new PissStreamListener(), this);
+        this.getServer().getPluginManager().registerEvents(new PissListener(), this);
     }
 
     public void onDisable() {

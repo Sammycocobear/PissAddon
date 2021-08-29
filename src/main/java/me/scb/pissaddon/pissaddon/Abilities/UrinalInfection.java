@@ -1,12 +1,10 @@
 package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -16,7 +14,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -32,7 +29,7 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
     private double damage;
     private int distance;
     private Permission perm;
-    private PissStreamListener listener;
+    private PissListener listener;
     private Location location;
     private Vector direction;
     private double distancetraveled;
@@ -58,9 +55,9 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
 
 
     private void setfields() {
-        this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Sammycocobear.UrinalInfection.cooldown");
-        this.distance = ConfigManager.getConfig().getInt("ExtraAbilities.Sammycocobear.UrinalInfection.distance");
-        this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Sammycocobear.UrinalInfection.damage");
+        this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.UrinalInfection.cooldown");
+        this.distance =  Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.UrinalInfection.distance");
+        this.damage =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.UrinalInfection.damage");
     }
 
     public void progress() {
@@ -141,7 +138,7 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
     }
 
     public void load() {
-        this.listener = new PissStreamListener();
+        this.listener = new PissListener();
     }
 
     public void stop() {

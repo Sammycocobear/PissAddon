@@ -4,7 +4,7 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -12,7 +12,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import org.bukkit.event.HandlerList;
-import org.bukkit.permissions.Permission;
 import org.bukkit.util.Vector;
 
 import java.util.Iterator;
@@ -22,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 //PeeDrain: A spout  line of yellow particles appears from the ground damaging whoever walks into it.
 //PeeDrain - Hold shift, aim and then release.
 public class PeeDrain extends PissAbility implements AddonAbility {
-    private PissStreamListener listener;
+    private PissListener listener;
     private Location location;
     private Vector direction;
     private double distancetraveled;
@@ -58,7 +57,7 @@ public class PeeDrain extends PissAbility implements AddonAbility {
             this.remove();
         } else {
             this.affectTargets();
-            for (int i = 0; i < 360; ++i) {
+            for (int i = 0; i < 90; ++i) {
                 double x = 0;
                 double y = Math.sin(i);
                 double z = 0;
@@ -124,7 +123,7 @@ public class PeeDrain extends PissAbility implements AddonAbility {
 
     @Override
     public void load() {
-        this.listener = new PissStreamListener();
+        this.listener = new PissListener();
     }
 
     @Override

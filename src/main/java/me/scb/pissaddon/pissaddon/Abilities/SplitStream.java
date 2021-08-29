@@ -5,7 +5,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class SplitStream extends PissAbility implements AddonAbility {
     private Set<Entity> hurt;
     private double damage;
     private Vector direction;
-    private PissStreamListener listener;
+    private PissListener listener;
 
     public SplitStream(Player player) {
         super(player);
@@ -128,7 +128,7 @@ public class SplitStream extends PissAbility implements AddonAbility {
 
     @Override
     public void load() {
-        this.listener = new PissStreamListener();
+        this.listener = new PissListener();
 
 
     }

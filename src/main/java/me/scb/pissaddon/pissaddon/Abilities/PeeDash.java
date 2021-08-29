@@ -2,11 +2,9 @@ package me.scb.pissaddon.pissaddon.Abilities;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.attribute.Attribute;
-import com.projectkorra.projectkorra.waterbending.multiabilities.WaterArmsWhip;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import org.bukkit.Location;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.util.Vector;
@@ -17,7 +15,7 @@ public class PeeDash extends PissAbility implements AddonAbility {
     private int height;
     @Attribute("Cooldown")
     private long cooldown;
-    private PissStreamListener listener;
+    private PissListener listener;
     private long jump;
 
 
@@ -77,7 +75,7 @@ public class PeeDash extends PissAbility implements AddonAbility {
 
     @Override
     public void load() {
-        this.listener = new PissStreamListener();
+        this.listener = new PissListener();
 
     }
 

@@ -3,14 +3,13 @@ package me.scb.pissaddon.pissaddon.Abilities;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import me.scb.pissaddon.pissaddon.Config.Config;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -22,32 +21,29 @@ import org.bukkit.util.Vector;
 
 public class PissSlide extends PissAbility implements AddonAbility {
     private Permission perm;
-    private PissStreamListener listener;
-
-    private Location location;
+    private PissListener listener;
     private Vector direction;
     private double distancetraveled;
     private long cooldown;
     private int distance;
+    private Location location;
 
 
     public PissSlide(Player player) {
         super(player);
-        this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
-        this.direction = player.getLocation().getDirection();
-        this.direction.multiply(0.8D);
         this.bPlayer.addCooldown(this);
         this.distancetraveled = 0.0D;
         setfields();
-        this.bPlayer.addCooldown("PissSlide", this.cooldown);
         this.start();
     }
     private void setfields() {
-        this.cooldown = Config.ConfigPath.getConfig().getLong("ExtraAbilities.Sammycocobear.PissSlide.cooldown");
-        this.distance = Config.ConfigPath.getConfig().getInt("ExtraAbilities.Sammycocobear.PissSlide.distance");
+        this.cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissSlide.cooldown");
+        this.distance = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissSlide.distance");
     }
 
     public void progress() {
+        this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
+        this.direction = player.getEyeLocation().getDirection().normalize().multiply(0.8);
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
@@ -56,7 +52,7 @@ public class PissSlide extends PissAbility implements AddonAbility {
             this.remove();
         }else {
             this.affectTargets();
-            this.player.setFallDistance(0.0F);
+            this.player.setFallDistance(0.1F);
             this.player.setGliding(true);
             GeneralMethods.displayColoredParticle("FFA500", this.location, 8, 0.1D, 0.1D, 0.1D);
             if (ThreadLocalRandom.current().nextInt(6) == 0) {
@@ -68,6 +64,8 @@ public class PissSlide extends PissAbility implements AddonAbility {
     }
 
     private void affectTargets() {
+        this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
+        this.direction = player.getEyeLocation().getDirection().normalize().multiply(0.8);
         List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 2);
         Iterator var2 = targets.iterator();
 
@@ -77,6 +75,12 @@ public class PissSlide extends PissAbility implements AddonAbility {
         }
 
     }
+    public void remove(){
+        super.remove();
+        this.bPlayer.addCooldown(this,cooldown);
+
+    }
+
 
     public boolean isSneakAbility() {
         return true;
@@ -95,6 +99,7 @@ public class PissSlide extends PissAbility implements AddonAbility {
     }
 
     public Location getLocation() {
+        this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         return this.location;
     }
 

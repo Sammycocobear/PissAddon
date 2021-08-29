@@ -1,19 +1,15 @@
 package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
-import me.scb.pissaddon.pissaddon.Pissaddon;
+import me.scb.pissaddon.pissaddon.PissListener;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.util.Vector;
 
 import java.util.Iterator;
@@ -24,7 +20,7 @@ import java.util.List;
 public class PissSplatter extends PissAbility implements AddonAbility {
     private long cooldown;
     private Permission perm;
-    private PissStreamListener listener;
+    private PissListener listener;
     private static final double DAMAGE = 1.0D;
     private static final double RANGE = 25.0D;
     private static final long COOLDOWN = 2000L;
@@ -124,7 +120,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     }
 
     public void load() {
-            this.listener = new PissStreamListener();
+            this.listener = new PissListener();
     }
 
     public void stop() {

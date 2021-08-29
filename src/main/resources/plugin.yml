@@ -4,6 +4,12 @@ main: me.scb.pissaddon.pissaddon.Pissaddon
 api-version: 1.16
 depend: [ ProjectKorra ]
 permissions:
+  bending.command.piss:
+    default: true
+    description: Shows info about PissAddon.
+  bending.command.piss.reload:
+    default: op
+    description: Reload the config of PissAddon.
   Pissaddon.player:
     default: true
     description: Addon Ability Perms

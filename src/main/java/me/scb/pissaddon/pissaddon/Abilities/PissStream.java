@@ -1,9 +1,7 @@
 package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -19,7 +17,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.util.Vector;
 
 public class PissStream extends PissAbility implements AddonAbility {
@@ -27,7 +24,7 @@ public class PissStream extends PissAbility implements AddonAbility {
     private double damage;
     private int distance;
     private Permission perm;
-    private PissStreamListener listener;
+    private PissListener listener;
     private Location location;
     private Vector direction;
     private double distancetraveled;
@@ -50,9 +47,9 @@ public class PissStream extends PissAbility implements AddonAbility {
     }
 
     private void setfields() {
-        this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Sammycocobear.PsssStream.cooldown");
-        this.distance = ConfigManager.getConfig().getInt("ExtraAbilities.Sammycocobear.PissStream.distance");
-        this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Sammycocobear.PissStream.damage");
+        this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PsssStream.cooldown");
+        this.distance =  Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissStream.distance");
+        this.damage =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissStream.damage");
     }
 
     public void progress() {
@@ -121,7 +118,7 @@ public class PissStream extends PissAbility implements AddonAbility {
     }
 
     public void load() {
-        this.listener = new PissStreamListener();
+        this.listener = new PissListener();
 
     }
 

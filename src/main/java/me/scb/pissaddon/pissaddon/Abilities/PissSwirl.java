@@ -5,7 +5,7 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
-import me.scb.pissaddon.pissaddon.PissStreamListener;
+import me.scb.pissaddon.pissaddon.PissListener;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -137,12 +137,12 @@ public class PissSwirl extends PissAbility implements AddonAbility {
     }
 
     public void load() {
-        ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new PissStreamListener(), ProjectKorra.plugin);
+        ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new PissListener(), ProjectKorra.plugin);
 
     }
 
     public void stop() {
-        HandlerList.unregisterAll(new PissStreamListener());
+        HandlerList.unregisterAll(new PissListener());
     }
 
     public String getAuthor() {

@@ -17,6 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import me.scb.pissaddon.pissaddon.Config.Config;
 import me.scb.pissaddon.pissaddon.PissAbility;
+import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -91,11 +92,11 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
     }
 
     private void setFields() {
-        this.distance = Config.ConfigPath.getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.distance");
-        this.maxRadius = Config.ConfigPath.getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.maxRadius");
-        this.sinWaveAmount = Config.ConfigPath.getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.sinWaveAmount");
-        this.particleDensity = Config.ConfigPath.getConfig().getInt("ExtraAbilities.Sammycocobear.PissAura.ParticleDensity");
-        this.cooldown = Config.ConfigPath.getConfig().getLong("ExtraAbilities.Sammycocobear.PissAura.cooldown");
+        this.distance =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.distance");
+        this.maxRadius =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.maxRadius");
+        this.sinWaveAmount =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.sinWaveAmount");
+        this.particleDensity =  Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissAura.ParticleDensity");
+        this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissAura.cooldown");
     }
 
 
