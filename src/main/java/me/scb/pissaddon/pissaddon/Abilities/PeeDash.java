@@ -37,6 +37,10 @@ public class PeeDash extends PissAbility implements AddonAbility {
 
     @Override
     public void progress() {
+        if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
+            remove();
+            return;
+        }
             Vector vector = this.player.getLocation().getDirection().normalize().multiply((float) this.jump);
             vector.setY((float) this.height);
             this.player.setVelocity(vector);

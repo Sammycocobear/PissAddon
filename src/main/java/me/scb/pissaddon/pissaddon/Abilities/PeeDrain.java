@@ -2,9 +2,11 @@ package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
+import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,26 +26,40 @@ public class PeeDrain extends PissAbility implements AddonAbility {
     private PissListener listener;
     private Location location;
     private Vector direction;
-    private double distancetraveled;
     private long time;
     private long duration;
     private long cooldown;
+    private double hitbox;
+    private double sourcerange;
+    private double size;
+    private int particles;
+    private Vector knockback;
 
 
     public PeeDrain(Player player) {
         super(player);
-        this.location = GeneralMethods.getTargetedLocation(player, 25.0D, new Material[0]);
-        this.direction = player.getLocation().getDirection();
-        this.direction.multiply(0.8D);
-        this.bPlayer.addCooldown(this);
-        this.distancetraveled = 0.0D;
-        this.duration = 5000L;
-        this.cooldown = 2000;
         if (this.bPlayer.isOnCooldown(this)) {
             return;
         }
+        if (CoreAbility.hasAbility(player, PeeDrain.class)){
+            return;
+        }
+        setfields();
+        this.location = GeneralMethods.getTargetedLocation(player, sourcerange, new Material[0]);
+        this.direction = player.getLocation().getDirection();
+        this.direction.multiply(0.8D);
         this.bPlayer.addCooldown("PeeDrain", this.cooldown);
         this.start();
+    }
+
+    private void setfields() {
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PeeDrain.cooldown");
+        duration = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PeeDrain.duration");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.hitbox");
+        sourcerange = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.sourcerange");
+        size = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.size");
+        particles = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PeeDrain.particles");
+        knockback = Pissaddon.getPlugin().getConfig().getVector("ExtraAbilities.Sammycocobear.PeeDrain.knockback");
     }
 
     @Override
@@ -53,21 +69,19 @@ public class PeeDrain extends PissAbility implements AddonAbility {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
             this.remove();
-        } else if (this.distancetraveled > 25.0D) {
-            this.remove();
         } else {
             this.affectTargets();
-            for (int i = 0; i < 90; ++i) {
+            for (int i = 0; i < particles; ++i) {
                 double x = 0;
                 double y = Math.sin(i);
                 double z = 0;
                 Vector vector = new Vector(x, y, z);
-                vector = vector.multiply(1.5D);
+                vector = vector.multiply(size);
                 this.location.add(vector);
                 GeneralMethods.displayColoredParticle("ffff00", this.location,1,.001,.001,.001);
                 this.location.subtract(vector);
                 if (ThreadLocalRandom.current().nextInt(8) == 0) {
-                    this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN_ABOVE, 0.1F, 1.5F);
+                    this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN_ABOVE, 0.001F, 1.5F);
                 }
                 this.time = System.currentTimeMillis();
                 if (this.time - this.getStartTime() > this.duration) {
@@ -81,13 +95,13 @@ public class PeeDrain extends PissAbility implements AddonAbility {
 
 
     private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 2.0D);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
-                target.setVelocity(this.direction);
+                target.setVelocity(knockback);
                 DamageHandler.damageEntity(target, 2.0D, this);
                 target.setFireTicks(1);
             }

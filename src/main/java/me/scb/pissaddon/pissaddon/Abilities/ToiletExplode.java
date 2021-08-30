@@ -145,7 +145,7 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
         return "1.0.0";
     }
     public String getInstructions() {
-        return "PissSwirl(Tap Shift)->GoldenShower(Tap Shift)->UTI(Left Click)";
+        return "PissSwirl(Tap Shift)->GoldenShower(Tap Shift)->UrinalInfection(Left Click)";
     }
 
     public String getDescription() {
@@ -164,6 +164,6 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
                 new ComboManager.AbilityInformation("PissSwirl", ClickType.SHIFT_UP),
                 new ComboManager.AbilityInformation("GoldenShower", ClickType.SHIFT_DOWN),
                 new ComboManager.AbilityInformation("GoldenShower", ClickType.SHIFT_UP),
-                new ComboManager.AbilityInformation("UTI", ClickType.LEFT_CLICK)));
+                new ComboManager.AbilityInformation("UrinalInfection", ClickType.LEFT_CLICK)));
     }
 }

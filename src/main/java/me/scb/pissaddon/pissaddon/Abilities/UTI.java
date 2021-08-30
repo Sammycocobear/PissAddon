@@ -1,22 +1,29 @@
 package me.scb.pissaddon.pissaddon.Abilities;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.ComboAbility;
+import com.projectkorra.projectkorra.ability.util.ComboManager;
+import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
+import me.scb.pissaddon.pissaddon.Pissaddon;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-public class UTI extends PissAbility implements AddonAbility {
+public class UTI extends PissAbility implements AddonAbility, ComboAbility {
     private long cooldown;
     private long time;
     private Set<Entity> hurt;
@@ -24,77 +31,77 @@ public class UTI extends PissAbility implements AddonAbility {
     private Vector direction;
     private Permission perm;
     private PissListener listener;
+    private double distancetraveled;
+    private double distance;
+    private double hitbox;
+    private double damage;
+    private int slowamp;
+    private int slowduration;
 
     public UTI(Player player) {
 
         super(player);
         this.cooldown = 2000;
-        this.location = this.player.getLocation();
+        this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.direction = player.getLocation().getDirection();
         this.perm = new Permission("bending.ability.UTI");
+        distancetraveled = 25;
+
+
         if (this.bPlayer.isOnCooldown(this)) {
             return;
         }
 
+        setfields();
         start();
+    }
+
+    private void setfields() {
+        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.UTI.damage");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.UTI.hitbox");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.UTI.cooldown");
+        distance = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.UTI.distance");
+        slowamp = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.UTI.slowamp");
+        slowduration = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.UTI.slowduration");
     }
 
     @Override
     public void progress() {
 
-        this.time = System.currentTimeMillis();
-        Location loc = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
+
         this.affectTargets();
-        double t = 0;
-        t = t + 0.1 * Math.PI;
-        for (double theta = 0; theta <= 2 * Math.PI; theta = theta + Math.PI / 32) {
-            double x = t * Math.cos(theta);
-            double y = t * Math.sin(theta);
-            double z = -4 * Math.exp(-0.1 * t) * Math.sin(t) + 1.5;
-            Vector vector = new Vector(x, y, z);
-            double yaw = Math.toRadians((double)(-this.location.getYaw()));
-            double pitch = Math.toRadians((double)this.location.getPitch());
-            double oldX = vector.getX();
-            double oldY = vector.getY();
-            double oldZ = vector.getZ();
-            vector.setY(oldY * Math.cos(pitch) - oldZ * Math.sin(pitch));
-            vector.setZ(oldY * Math.sin(pitch) + oldZ * Math.cos(pitch));
-            oldY = vector.getY();
-            oldZ = vector.getZ();
-            vector.setX(oldX * Math.cos(yaw) + oldZ * Math.sin(yaw));
-            vector.setZ(-oldX * Math.sin(yaw) + oldZ * Math.cos(yaw));
-            this.location.add(vector);
-            GeneralMethods.displayColoredParticle("ffff00", loc);
-            this.location.add(vector);
-            player.setFallDistance(-10000);
+
+        GeneralMethods.displayColoredParticle("964B00", this.location, 1, 0.1D, 0.1D, 0.1D);
+        if (ThreadLocalRandom.current().nextInt(6) == 0) {
+            this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
         }
-        if (t > 20) {
-            player.setFallDistance(Float.MIN_VALUE);
-            this.remove();
-        }
+        this.location.add(this.direction);
+        this.distancetraveled += this.direction.length();
     }
+
+
+
     private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 1.0D);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while (var2.hasNext()) {
             Entity target = (Entity) var2.next();
-            if (target.getUniqueId() != this.player.getUniqueId()) {
-
+            if (target.getUniqueId() != this.player.getUniqueId() && target instanceof LivingEntity) {
+                ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, slowduration, slowamp));
                 target.setVelocity(this.direction);
-                target.setFireTicks(1);
                 if (!this.hurt.contains(target)) {
-                    DamageHandler.damageEntity(target, 10.0D, this);
+                    DamageHandler.damageEntity(target, damage, this);
                     this.hurt.add(target);
                 }
 
                 target.setVelocity(this.direction);
-                target.setFireTicks(0);
                 this.remove();
 
             }
 
         }
+
     }
 
     @Override
@@ -142,5 +149,19 @@ public class UTI extends PissAbility implements AddonAbility {
     public String getVersion() {
         return "1.0.0";
     }
+
+    @Override
+    public Object createNewComboInstance(Player player) {
+        return new UTI(player);
+    }
+
+    @Override
+    public ArrayList<ComboManager.AbilityInformation> getCombination() {
+        return new ArrayList(Arrays.asList(
+                new ComboManager.AbilityInformation("UrinalInfection", ClickType.SHIFT_DOWN),
+                new ComboManager.AbilityInformation("UrinalInfection", ClickType.SHIFT_UP),
+                new ComboManager.AbilityInformation("UrinalInfection", ClickType.RIGHT_CLICK)));
+    }
 }
+
 

@@ -1,6 +1,7 @@
 package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
@@ -8,6 +9,7 @@ import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -40,7 +42,17 @@ public class WaterSports extends PissAbility implements AddonAbility {
 
     private long duration;
 
-    private double speedduration;
+    private int speedduration;
+
+    private int speedamp;
+
+    private int resistanceamp;
+
+    private int resistanceduration;
+
+    private long cooldown;
+
+
 
     public WaterSports(Player player) {
         super(player);
@@ -55,16 +67,28 @@ public class WaterSports extends PissAbility implements AddonAbility {
     }
 
     private void setfields() {
-        speedduration = Pissaddon.getPlugin().getConfig().getDouble("Extra");
+        speedduration = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.speedduration");
+        duration = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.WaterSports.duration");
+        speedamp = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.speedamp");
+        resistanceamp = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.resistanceamp");
+        resistanceduration = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.resistanceduration");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.WaterSports.cooldown");
 
     }
 
     @Override
     public void progress() {
-        if(!this.bPlayer.canBend(this)){
+        this.time = System.currentTimeMillis();
+        if (this.time - this.getStartTime() > this.duration) {
+            this.remove();
+            return;
+        }
+        if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
             remove();
             return;
         }
+
+        particle();
 
     }
     private void particle() {
@@ -73,10 +97,11 @@ public class WaterSports extends PissAbility implements AddonAbility {
             Vector v = getRandomCircleVector().multiply(random.nextDouble() * 0.6d);
             v.setY(random.nextFloat() * 1.8);
             location.add(v);
-            GeneralMethods.displayColoredParticle("ffffff", location);
+            GeneralMethods.displayColoredParticle("ffff00", location);
             location.subtract(v);
         }
-        this.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, 10));
+        this.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, speedduration, speedamp));
+        this.player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, resistanceduration, resistanceamp));
     }
 
     public static Vector getRandomCircleVector() {
@@ -86,6 +111,13 @@ public class WaterSports extends PissAbility implements AddonAbility {
         z = Math.sin(rnd);
 
         return new Vector(x, 0, z);
+    }
+    public void remove(){
+        super.remove();
+        this.bPlayer.addCooldown(this, cooldown);
+        this.player.removePotionEffect(PotionEffectType.SPEED);
+        this.player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+
     }
 
     @Override
@@ -100,26 +132,29 @@ public class WaterSports extends PissAbility implements AddonAbility {
 
     @Override
     public long getCooldown() {
-        return 0;
+        return cooldown;
     }
 
     @Override
     public String getName() {
-        return null;
+        return "WaterSports";
     }
 
     @Override
     public Location getLocation() {
-        return null;
+        return location;
     }
 
     @Override
     public void load() {
+        ProjectKorra.plugin.getServer().getPluginManager().registerEvents(listener, ProjectKorra.plugin);
+
 
     }
 
     @Override
     public void stop() {
+        HandlerList.unregisterAll(listener);
 
     }
 

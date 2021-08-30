@@ -59,6 +59,10 @@ public class PissSwirl extends PissAbility implements AddonAbility {
     }
 
     public void progress() {
+        if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
+            remove();
+            return;
+        }
         if (this.location.distanceSquared(this.origin) >= (double)(this.distance * this.distance)) {
             this.remove();
         } else {

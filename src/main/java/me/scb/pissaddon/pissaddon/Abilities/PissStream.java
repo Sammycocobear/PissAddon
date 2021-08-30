@@ -2,6 +2,7 @@ package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -38,11 +39,9 @@ public class PissStream extends PissAbility implements AddonAbility {
         this.distancetraveled = 0.0D;
         this.hurt = new HashSet();
         this.perm = new Permission("bending.ability.PissStream");
-        if (!hasAbility(player, PissStream.class) && !this.bPlayer.isOnCooldown(this) && this.bPlayer.canBendIgnoreBinds(this)) {
-        }
-
+        if (CoreAbility.hasAbility(player, PissStream.class)) return;
         this.setfields();
-        this.bPlayer.addCooldown("PissStream", this.cooldown);
+        this.bPlayer.addCooldown(this, this.cooldown);
         this.start();
     }
 

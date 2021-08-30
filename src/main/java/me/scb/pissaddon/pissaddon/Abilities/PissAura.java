@@ -103,6 +103,10 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
 
     @Override
     public void progress() {
+        if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
+            remove();
+            return;
+        }
         if (this.location.distanceSquared(this.origin) >= (double)(this.distance * this.distance)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {

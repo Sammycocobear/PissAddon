@@ -23,7 +23,8 @@ public class PeeRocket extends PissAbility implements AddonAbility {
         super(player);
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.cooldown = 3000;
-        this.duration = 2000;if (this.bPlayer.isOnCooldown(this)) {
+        this.duration = 2000;
+        if (this.bPlayer.isOnCooldown(this)) {
             return;
         }
         this.bPlayer.addCooldown(this, this.cooldown);
@@ -32,6 +33,10 @@ public class PeeRocket extends PissAbility implements AddonAbility {
 
     @Override
     public void progress() {
+        if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
+            remove();
+            return;
+        }
         this.player.setFallDistance(0.0F);
         this.time = System.currentTimeMillis();
         Location loc = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
