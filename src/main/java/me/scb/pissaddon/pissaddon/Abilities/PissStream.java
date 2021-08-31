@@ -30,6 +30,7 @@ public class PissStream extends PissAbility implements AddonAbility {
     private Vector direction;
     private double distancetraveled;
     private Set<Entity> hurt;
+    private double hitbox;
 
     public PissStream(Player player) {
         super(player);
@@ -46,9 +47,10 @@ public class PissStream extends PissAbility implements AddonAbility {
     }
 
     private void setfields() {
-        this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PsssStream.cooldown");
+        this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissStream.cooldown");
         this.distance =  Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissStream.distance");
         this.damage =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissStream.damage");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissStream.hitbox");
     }
 
     public void progress() {
@@ -72,7 +74,7 @@ public class PissStream extends PissAbility implements AddonAbility {
     }
 
     private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 1.0D);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
@@ -84,7 +86,6 @@ public class PissStream extends PissAbility implements AddonAbility {
                 }
 
                 target.setVelocity(this.direction);
-                target.setFireTicks(1);
                 this.remove();
             }
         }

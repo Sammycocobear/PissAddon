@@ -103,7 +103,7 @@ public class PissSwirl extends PissAbility implements AddonAbility {
                 target.setVelocity(this.direction);
                 target.setFireTicks(1);
                 if (!this.hurt.contains(target)) {
-                    DamageHandler.damageEntity(target, 10.0D, this);
+                    DamageHandler.damageEntity(target, 4.0D, this);
                     this.hurt.add(target);
                 }
 

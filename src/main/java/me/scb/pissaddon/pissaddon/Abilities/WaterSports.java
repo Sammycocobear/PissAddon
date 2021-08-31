@@ -3,6 +3,7 @@ package me.scb.pissaddon.pissaddon.Abilities;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.CoreAbility;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
@@ -62,6 +63,12 @@ public class WaterSports extends PissAbility implements AddonAbility {
         this.direction.multiply(0.8D);
         iterations = 600;
         this.hurt = new HashSet();
+        if (CoreAbility.hasAbility(player, WaterSports.class)){
+            return;
+        }
+        if(bPlayer.isOnCooldown(this)){
+            return;
+        }
         setfields();
         start();
     }

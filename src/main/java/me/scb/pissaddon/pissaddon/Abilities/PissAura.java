@@ -71,19 +71,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
         this.perm = new Permission("bending.ability.PissAura");
         this.hurt = new HashSet<>();
         if (!hasAbility(player, PissAura.class) && !this.bPlayer.isOnCooldown(this) && this.bPlayer.canBendIgnoreBinds(this)) {
-            this.location = player.getEyeLocation();
-            this.origin = this.location.clone();
-            this.direction = player.getLocation().getDirection();
-            this.cosX = Math.cos(Math.toRadians((double)this.location.getPitch()));
-            this.sinX = Math.sin(Math.toRadians((double)this.location.getPitch()));
-            this.cosY = Math.cos(Math.toRadians((double)(-this.location.getYaw())));
-            this.sinY = Math.sin(Math.toRadians((double)(-this.location.getYaw())));
-            this.arrivalTime = 20;
-            this.phase = 0;
-            this.angleIncrease = this.sinWaveAmount * 360 / this.arrivalTime;
-            this.radius = 0;
-            this.radiusIncrease = this.maxRadius / this.arrivalTime;
-            this.speed = this.distance / this.arrivalTime;
+
 
             this.setFields();
             this.start();
@@ -91,28 +79,42 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
 
     }
 
-    private void setFields() {
+    public void setFields() {
+        this.location = player.getEyeLocation();
+        this.origin = this.location.clone();
+        this.direction = player.getLocation().getDirection();
+
+        this.cosX = Math.cos(Math.toRadians((double)this.location.getPitch()));
+        this.sinX = Math.sin(Math.toRadians((double)this.location.getPitch()));
+        this.cosY = Math.cos(Math.toRadians((double)(-this.location.getYaw())));
+        this.sinY = Math.sin(Math.toRadians((double)(-this.location.getYaw())));
+
+
         this.distance =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.distance");
         this.maxRadius =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.maxRadius");
         this.sinWaveAmount =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.sinWaveAmount");
         this.particleDensity =  Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissAura.ParticleDensity");
         this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissAura.cooldown");
+        this.arrivalTime = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissAura.arrivaltimeinticks");
+        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.damage");
+
+        this.phase = 0;
+        this.angleIncrease = this.sinWaveAmount * 360 / this.arrivalTime;
+        this.radius = 0;
+        this.radiusIncrease = this.maxRadius / this.arrivalTime;
+        this.speed = this.distance / this.arrivalTime;
+
     }
 
 
 
     @Override
     public void progress() {
-        if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
-            remove();
-            return;
-        }
         if (this.location.distanceSquared(this.origin) >= (double)(this.distance * this.distance)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
             this.remove();
         } else {
-            this.affectTargets();
             for(int i = 0; i < this.particleDensity; i++) {
                 double angle = Math.toRadians(phase);
                 double x = this.radius * Math.sin(-angle);
@@ -122,6 +124,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
                 vector = this.rotateAroundAxisX(vector, this.cosX, this.sinX);
                 vector = this.rotateAroundAxisY(vector, this.cosY, this.sinY);
                 this.location.add(vector);
+                this.affectTargets();
                 GeneralMethods.displayColoredParticle("FFFF00", this.location);
                 this.location.subtract(vector);
 
@@ -138,10 +141,10 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
 
     private void affectTargets() {
         List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 1);
-        Iterator<Entity> var2 = targets.iterator();
+        Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
-            Entity target = var2.next();
+            Entity target = (Entity)var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 target.setVelocity(this.direction);
                 target.setFireTicks(1);

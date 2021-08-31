@@ -2,6 +2,7 @@ package me.scb.pissaddon.pissaddon.Abilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import java.util.Iterator;
 import java.util.List;
@@ -9,10 +10,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
+import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Panda;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
@@ -30,16 +33,39 @@ public class GoldenShower extends PissAbility implements AddonAbility {
     private double distancetraveled;
     private long time;
     private long duration;
+    private long cooldown;
+    private double sourcerange;
+    private int particles;
+    private int radius;
+    private double damage;
+    private double hitbox;
+
 
     public GoldenShower(Player player) {
         super(player);
-        this.location = GeneralMethods.getTargetedLocation(player, 25.0D, new Material[0]);
+        this.location = GeneralMethods.getTargetedLocation(player, sourcerange, new Material[0]);
         this.direction = player.getLocation().getDirection();
         this.direction.multiply(0.8D);
         this.bPlayer.addCooldown(this);
         this.distancetraveled = 0.0D;
         this.duration = 5000L;
+        if (CoreAbility.hasAbility(player, GoldenShower.class)){
+            return;
+        }
+        setfields();
+        this.bPlayer.addCooldown(this);
         this.start();
+    }
+
+    private void setfields() {
+        duration = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.GoldenShower.duration");
+        sourcerange = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.GoldenShower.sourcerange");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.GoldenShower.cooldown");
+        particles = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.GoldenShower.particles");
+        radius = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.GoldenShower.radius");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.GoldenShower.hitbox");
+        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.GoldenShower.damage");
+
     }
 
     public void progress() {
@@ -52,7 +78,7 @@ public class GoldenShower extends PissAbility implements AddonAbility {
             this.remove();
         } else {
             this.affectTargets();
-            GeneralMethods.displayColoredParticle("FFFF00", this.location, 27, 2.0D, 2.0D, 2.0D);
+            GeneralMethods.displayColoredParticle("FFFF00", this.location, particles, radius, radius, radius);
             if (ThreadLocalRandom.current().nextInt(6) == 0) {
                 this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN_ABOVE, 0.1F, 1.0F);
             }
@@ -67,14 +93,14 @@ public class GoldenShower extends PissAbility implements AddonAbility {
     }
 
     private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 2.0D);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 target.setVelocity(this.direction);
-                DamageHandler.damageEntity(target, 2.0D, this);
+                DamageHandler.damageEntity(target, damage, this);
                 target.setFireTicks(1);
             }
         }

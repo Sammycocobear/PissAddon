@@ -82,6 +82,9 @@ public class PIssWave extends PissAbility implements AddonAbility {
  
         this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
         if (CoreAbility.hasAbility(player, PIssWave.class)) return;
+        if(this.bPlayer.isOnCooldown(this)){
+            return;
+        }
 
         setfields();
         start();
@@ -113,6 +116,7 @@ public class PIssWave extends PissAbility implements AddonAbility {
             remove();
             return;
         }
+
         location.add(velocity);
         for (Vector v : cloudCache) {
             location.add(v);
@@ -156,6 +160,9 @@ public class PIssWave extends PissAbility implements AddonAbility {
         if (n2.getX() < 0) n2.multiply(-1);
 
         yaw = (-location.getYaw() + 90) * degreesToRadians;
+//ya maybe today
+        // LMAO i want to get custom kill messages done, but idk how to do them
+        // theres a method in pk
 
         for (int i = 0; i < particlesFront; i++) {
             float ratio = (float) i / particlesFront;

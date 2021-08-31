@@ -33,7 +33,6 @@ public class PeeDrain extends PissAbility implements AddonAbility {
     private double sourcerange;
     private double size;
     private int particles;
-    private Vector knockback;
 
 
     public PeeDrain(Player player) {
@@ -59,7 +58,6 @@ public class PeeDrain extends PissAbility implements AddonAbility {
         sourcerange = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.sourcerange");
         size = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.size");
         particles = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PeeDrain.particles");
-        knockback = Pissaddon.getPlugin().getConfig().getVector("ExtraAbilities.Sammycocobear.PeeDrain.knockback");
     }
 
     @Override
@@ -101,7 +99,7 @@ public class PeeDrain extends PissAbility implements AddonAbility {
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
-                target.setVelocity(knockback);
+                target.setVelocity(direction);
                 DamageHandler.damageEntity(target, 2.0D, this);
                 target.setFireTicks(1);
             }

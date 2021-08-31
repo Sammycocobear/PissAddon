@@ -99,68 +99,9 @@ public class PissListener implements Listener {
         Bukkit.getScheduler().runTaskLater(Pissaddon.getPlugin(), Pissaddon::reload, 1);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onPlayerDeath(final PlayerDeathEvent event) {
-        if (!(event.getEntity() instanceof Player)) {
-            return;
-        }
 
-        if (event.getEntity().getKiller() != null) {
-            if (BENDING_PLAYER_DEATH.containsKey(event.getEntity())) {
-                String message = Pissaddon.getPlugin().getConfig().getString("DeathMessages.Default");
-                final String ability = BENDING_PLAYER_DEATH.get(event.getEntity());
-                final String tempAbility = ChatColor.stripColor(ability).replaceAll(" ", "");
-                final CoreAbility coreAbil = CoreAbility.getAbility(tempAbility);
-                Element element = null;
 
-                if (coreAbil != null) {
-                    element = coreAbil.getElement();
-                }
 
-                if (HorizontalVelocityTracker.hasBeenDamagedByHorizontalVelocity(event.getEntity()) && Arrays.asList(HorizontalVelocityTracker.abils).contains(tempAbility)) {
-                    if (ConfigManager.languageConfig.get().contains("Abilities." + element.getName() + "." + tempAbility + ".HorizontalVelocityDeath")) {
-                        message = ConfigManager.languageConfig.get().getString("Abilities." + element.getName() + "." + tempAbility + ".HorizontalVelocityDeath");
-                    }
-                } else if (element != null) {
-                    if (element instanceof Element.SubElement) {
-                        element = ((Element.SubElement) element).getParentElement();
-                    }
-                    if (ConfigManager.languageConfig.get().contains("Abilities." + element.getName() + "." + tempAbility + ".DeathMessage")) {
-                        message = Pissaddon.getPlugin().getConfig().getString("Abilities." + element.getName() + "." + tempAbility + ".DeathMessage");
-                    } else if (ConfigManager.languageConfig.get().contains("Abilities." + element.getName() + ".Combo." + tempAbility + ".DeathMessage")) {
-                        message = Pissaddon.getPlugin().getConfig().getString("Abilities." + element.getName() + ".Combo." + tempAbility + ".DeathMessage");
-                    }
-
-                }
-                message = message.replace("{victim}", event.getEntity().getName()).replace("{attacker}", event.getEntity().getKiller().getName()).replace("{ability}", ability);
-                event.setDeathMessage(message);
-                BENDING_PLAYER_DEATH.remove(event.getEntity());
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onEntityBendingDeath(final EntityBendingDeathEvent event) {
-        BENDING_ENTITY_DEATH.put(event.getEntity(), event.getAbility());
-        if (event.getEntity() instanceof Player) {
-            if (ConfigManager.languageConfig.get().getBoolean("DeathMessages.Enabled")) {
-                final Ability ability = event.getAbility();
-                if (ability == null) {
-                    return;
-                }
-
-                BENDING_PLAYER_DEATH.put((Player) event.getEntity(), ability.getElement().getColor() + ability.getName());
-                final Player player = (Player) event.getEntity();
-
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        BENDING_PLAYER_DEATH.remove(player);
-                    }
-                }.runTaskLater(ProjectKorra.plugin, 20);
-            }
-        }
-    }
 }
 
 

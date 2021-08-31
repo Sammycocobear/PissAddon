@@ -70,8 +70,10 @@ public class PissSlide extends PissAbility implements AddonAbility {
         Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
-            Entity target = (Entity)var2.next();
-            target.setVelocity(this.direction);
+            Entity target = (Entity) var2.next();
+            if (target.getUniqueId() == this.player.getUniqueId()) {
+                target.setVelocity(this.direction);
+            }
         }
 
     }

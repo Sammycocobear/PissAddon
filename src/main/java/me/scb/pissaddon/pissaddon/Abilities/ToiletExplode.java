@@ -8,6 +8,7 @@ import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
+import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -16,33 +17,42 @@ import java.util.*;
 
 public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbility {
     private final HashSet hurt;
-    private final int damage;
+    private double damage;
     private Location location;
     private long cooldown;
     private PissListener listener;
     private long time;
     private long duration;
-    private  double t;
+    private double t;
     private Vector direction;
     private Location loc;
+    private double height;
+    private double width;
 
 
     public ToiletExplode(Player player) {
         super(player);
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
-        this.cooldown = 3000;
-        this.duration = 2000;
         this.t = 0;
         loc = player.getLocation();
         this.hurt = new HashSet();
-        this.damage = 5;
         this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
         this.direction.multiply(0.8D);
         if (this.bPlayer.isOnCooldown(this)) {
             return;
         }
+        setfields();
         this.bPlayer.addCooldown("ToiletExplode", this.cooldown);
         start();
+    }
+
+    private void setfields() {
+        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.ToiletExplode.damage");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.ToiletExplode.cooldown");
+        duration = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.ToiletExplode.duration");
+        height = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.ToiletExplode.height");
+        width = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.ToiletExplode.width");
+
     }
 
 
@@ -53,27 +63,33 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
             math();
         }
         player.setFallDistance(0);
-        }
-        public void math() {         t += 0.1 * Math.PI;
-            this.affectTargets();
-            for (double theta = 0; theta <= 2 * Math.PI; theta = theta + Math.PI / 32) {
-                double x = t * Math.cos(theta);
-                double y = -4 * Math.exp(-0.1 * t) * Math.sin(t) + 1.5;
-                double z = t * Math.sin(theta);
-                loc.add(x, y, z);
-                GeneralMethods.displayColoredParticle("ffff00", loc);
-                GeneralMethods.displayColoredParticle("964B00", loc);
-                loc.subtract(x, y, z);
-                this.time = System.currentTimeMillis();
-                if (this.time - this.getStartTime() > this.duration) {
-                    this.remove();
-                    return;
-                }
+    }
 
-            }
-        }
 
-    private void affectTargets() {
+
+
+
+    public void math() {
+        if (this.time - this.getStartTime() > this.duration) {
+            this.remove();
+            return;
+        }
+        t += 0.1 * Math.PI;
+        for (double theta = 0; theta <= 2 * Math.PI; theta = theta + Math.PI / 32) {
+            double x = t * (Math.cos(theta)*width);
+            double y = (-4 * Math.exp(-0.1 * t) * Math.sin(t) + 1.5 * height);
+            double z = (t * Math.sin(theta) * width);
+            loc.add(x, y, z);
+            this.affectTargets(location);
+            GeneralMethods.displayColoredParticle("ffff00", loc);
+            GeneralMethods.displayColoredParticle("964B00", loc);
+            loc.subtract(x, y, z);
+            this.time = System.currentTimeMillis();
+
+        }
+    }
+
+    private void affectTargets(Location location) {
         List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 10);
         Iterator var2 = targets.iterator();
 

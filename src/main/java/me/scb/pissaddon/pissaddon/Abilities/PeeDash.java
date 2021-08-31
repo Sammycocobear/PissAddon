@@ -4,6 +4,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.attribute.Attribute;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
+import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -16,23 +17,26 @@ public class PeeDash extends PissAbility implements AddonAbility {
     @Attribute("Cooldown")
     private long cooldown;
     private PissListener listener;
-    private long jump;
+    private int jump;
 
 
     public PeeDash(Player player) {
         super(player);
-        this.player.setFallDistance(0.0F);
         if (this.bPlayer.canBend(this)) {
-            this.height = 1;
-            this.cooldown = 1000;
             this.location = player.getLocation();
-            this.jump = 2;
             if(this.bPlayer.isOnCooldown(this)){
                 return;
             }
+            setfields();
             bPlayer.addCooldown(this,this.cooldown);
             this.start();
         }
+    }
+
+    private void setfields() {
+        jump = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.jumpvelo");
+        height = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.height");
+        cooldown = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.cooldown");
     }
 
     @Override

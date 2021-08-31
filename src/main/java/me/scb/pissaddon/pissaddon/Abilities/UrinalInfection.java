@@ -35,6 +35,9 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
     private double distancetraveled;
     private Set<Entity> hurt;
     private double collisionRadius;
+    private int poisonduration;
+    private double hitbox;
+    private int poisonamp;
 
     public UrinalInfection(Player player) {
         super(player);
@@ -58,6 +61,9 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
         this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.UrinalInfection.cooldown");
         this.distance =  Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.UrinalInfection.distance");
         this.damage =  Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.UrinalInfection.damage");
+        poisonduration = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.UrinalInfection.poisonduration");
+        poisonamp = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.UrinalInfection.poisonamp");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.UrinalInfection.hitbox");
     }
 
     public void progress() {
@@ -72,9 +78,9 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
             location.getWorld().spawnParticle(Particle.SOUL, location, 1, .1, .1, .1);
             GeneralMethods.displayColoredParticle("9400D3", this.location, 1, 0.1D, 0.1D, 0.1D);
             if (ThreadLocalRandom.current().nextInt(6) == 0) {
-            }
+                this.location.getWorld().playSound(this.location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 0.1F, 1.0F);
 
-            this.location.getWorld().playSound(this.location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 0.1F, 1.0F);
+            }
             this.location.add(this.direction);
             this.distancetraveled += this.direction.length();
         }
@@ -84,18 +90,18 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
 
 
     private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 1.0D);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while (var2.hasNext()) {
             Entity target = (Entity) var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 if (target instanceof LivingEntity) {
-                    ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.POISON,60,4));
+                    ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.POISON,poisonduration,poisonamp));
                     target.setVelocity(this.direction);
                     target.setFireTicks(1);
                     if (!this.hurt.contains(target)) {
-                        DamageHandler.damageEntity(target, 10.0D, this);
+                        DamageHandler.damageEntity(target, damage, this);
                         this.hurt.add(target);
                     }
 

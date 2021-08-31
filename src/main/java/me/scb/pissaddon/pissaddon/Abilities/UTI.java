@@ -160,7 +160,7 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
         return new ArrayList(Arrays.asList(
                 new ComboManager.AbilityInformation("UrinalInfection", ClickType.SHIFT_DOWN),
                 new ComboManager.AbilityInformation("UrinalInfection", ClickType.SHIFT_UP),
-                new ComboManager.AbilityInformation("UrinalInfection", ClickType.RIGHT_CLICK)));
+                new ComboManager.AbilityInformation("Tinke", ClickType.LEFT_CLICK)));
     }
 }
 

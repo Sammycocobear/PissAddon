@@ -5,6 +5,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
+import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -37,12 +38,13 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     private final double pitch;
     private long time;
     private long duration;
+    private double radius;
+    private double hitbox;
 
     public PissSplatter(Player player) {
         super(player);
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
-        this.direction.multiply(0.8D);
         this.distancetraveled = 0.0D;
         this.yaw = Math.toRadians((double)player.getLocation().getYaw());
         this.pitch = Math.toRadians((double)(player.getLocation().getPitch() - 90.0F));
@@ -51,10 +53,18 @@ public class PissSplatter extends PissAbility implements AddonAbility {
         this.cosY = Math.cos(-this.yaw);
         this.sinY = Math.sin(-this.yaw);
 
-        this.cooldown=2000;
-        this.duration = 500L;
+
+        setfields();
         this.bPlayer.addCooldown("PissSplatter", this.cooldown);
         this.start();
+    }
+
+    private void setfields() {
+        duration = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissSplatter.duration");
+        radius = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.radius");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissSplatter.cooldown");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.hitbox");
+
     }
 
     public void progress() {
@@ -66,15 +76,15 @@ public class PissSplatter extends PissAbility implements AddonAbility {
         } else if (GeneralMethods.isSolid(this.location.getBlock())) {
             this.remove();
         } else {
-            this.affectTargets();
 
             for(int i = 0; i < 360; ++i) {
                 double x = Math.sin(i);
                 double y = Math.cos(i);
                 double z = 0;
                 Vector vector = new Vector(x, z, y);
-                vector = vector.multiply(4D);
+                vector = vector.multiply(radius);
                 this.location.add(vector);
+                this.affectTargets(location);
                 GeneralMethods.displayColoredParticle("ffff00", this.location);
                 this.location.subtract(vector);
             }
@@ -83,8 +93,8 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     }
 
 
-    private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 3.0D);
+    private void affectTargets(Location location) {
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
