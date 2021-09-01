@@ -99,14 +99,12 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
                 if (target instanceof LivingEntity) {
                     ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.POISON,poisonduration,poisonamp));
                     target.setVelocity(this.direction);
-                    target.setFireTicks(1);
                     if (!this.hurt.contains(target)) {
                         DamageHandler.damageEntity(target, damage, this);
                         this.hurt.add(target);
                     }
 
                     target.setVelocity(this.direction);
-                    target.setFireTicks(0);
                     this.remove();
 
                 }

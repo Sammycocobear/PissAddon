@@ -40,6 +40,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     private long duration;
     private double radius;
     private double hitbox;
+    private double damage;
 
     public PissSplatter(Player player) {
         super(player);
@@ -64,6 +65,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
         radius = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.radius");
         cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissSplatter.cooldown");
         hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.hitbox");
+        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.damage");
 
     }
 
@@ -102,8 +104,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 int knockbackDistance = 0;
                 target.setVelocity(GeneralMethods.getDirection(target.getLocation(), this.location).multiply(knockbackDistance));
-                DamageHandler.damageEntity(target, 1.0D, this);
-                target.setFireTicks(1);
+                DamageHandler.damageEntity(target, damage, this);
             }
         }
 

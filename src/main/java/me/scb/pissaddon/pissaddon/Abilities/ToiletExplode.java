@@ -97,14 +97,12 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
             Entity target = (Entity)var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 target.setVelocity(this.direction);
-                target.setFireTicks(1);
                 if (!this.hurt.contains(target)) {
                     DamageHandler.damageEntity(target, this.damage, this);
                     this.hurt.add(target);
                 }
 
                 target.setVelocity(this.direction);
-                target.setFireTicks(1);
             }
         }
 

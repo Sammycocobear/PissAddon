@@ -119,6 +119,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.duration", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.radius", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.hitbox", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.damage", 1);
 
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.hitbox", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.radius", 2);
@@ -138,11 +139,11 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.Duration", 1000);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.Cooldown", 2000);
 
-        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.radius", 1);
-        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.speed", 1);
-        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.damage", 1);
-        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.hitbox", 1);
-        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.cooldown", 2000);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.radius", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.speed", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.damage", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.hitbox", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.cooldown", 2000);
 
 
 

@@ -101,7 +101,6 @@ public class PeeDrain extends PissAbility implements AddonAbility {
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 target.setVelocity(direction);
                 DamageHandler.damageEntity(target, 2.0D, this);
-                target.setFireTicks(1);
             }
         }
 

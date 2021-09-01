@@ -61,11 +61,11 @@ public class PissSwirl extends PissAbility implements AddonAbility {
     }
 
     private void setfields() {
-        radius = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.radius");
-        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilites.Sammycocobear.PissSwirl.cooldown");
-        speed = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.speed");
-        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.damage");
-        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.hitbox");
+        radius = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSwirl.radius");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissSwirl.cooldown");
+        speed = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSwirl.speed");
+        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSwirl.damage");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSwirl.hitbox");
 
 
     }
@@ -113,14 +113,12 @@ public class PissSwirl extends PissAbility implements AddonAbility {
             if (target.getUniqueId() != this.player.getUniqueId()) {
 
                 target.setVelocity(this.direction);
-                target.setFireTicks(1);
                 if (!this.hurt.contains(target)) {
                     DamageHandler.damageEntity(target, damage, this);
                     this.hurt.add(target);
                 }
 
                 target.setVelocity(this.direction);
-                target.setFireTicks(0);
                 this.remove();
 
             }
