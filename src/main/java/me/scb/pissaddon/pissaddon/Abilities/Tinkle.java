@@ -210,7 +210,13 @@ public class Tinkle extends PissAbility implements AddonAbility {
         HandlerList.unregisterAll(listener);
 
     }
+    public String getInstructions() {
+        return "<hold-shift>";
+    }
 
+    public String getDescription() {
+        return "Send a lightning fast stream of piss that sprays out at the end to hit your opponent.";
+    }
     @Override
     public String getAuthor() {
         return "Sammycocobear";

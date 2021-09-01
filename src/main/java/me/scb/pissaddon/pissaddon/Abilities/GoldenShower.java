@@ -43,6 +43,7 @@ public class GoldenShower extends PissAbility implements AddonAbility {
 
     public GoldenShower(Player player) {
         super(player);
+        setfields();
         this.location = GeneralMethods.getTargetedLocation(player, sourcerange, new Material[0]);
         this.direction = player.getLocation().getDirection();
         this.direction.multiply(0.8D);
@@ -52,7 +53,6 @@ public class GoldenShower extends PissAbility implements AddonAbility {
         if (CoreAbility.hasAbility(player, GoldenShower.class)){
             return;
         }
-        setfields();
         this.bPlayer.addCooldown(this);
         this.start();
     }
@@ -101,11 +101,10 @@ public class GoldenShower extends PissAbility implements AddonAbility {
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 target.setVelocity(this.direction);
                 DamageHandler.damageEntity(target, damage, this);
-                target.setFireTicks(1);
             }
         }
 
-    }
+    }//
 
 
     public boolean isSneakAbility() {
@@ -117,7 +116,7 @@ public class GoldenShower extends PissAbility implements AddonAbility {
     }
 
     public long getCooldown() {
-        return 2000L;
+        return cooldown;
     }
 
     public String getName() {
@@ -145,6 +144,10 @@ public class GoldenShower extends PissAbility implements AddonAbility {
     }
 
     public String getDescription() {
-        return "Piss Shower ";
+        return "Send a storm of cloudy pee on your opponent";
     }
+    public String getInstructions() {
+        return "<left-click>";
+    }
+
 }

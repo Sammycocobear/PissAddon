@@ -220,7 +220,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
     }
 
     public String getDescription() {
-        return "Wonky piss xD";
+        return "Send a speedy spike of zig-zagging pee towards your opponent.";
     }
 
     public Object createNewComboInstance(Player player) {

@@ -17,15 +17,14 @@ public class ConfigPath {
     private void deathmessages(){
 
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissWave.DeathMessage", "{victim} was washed away by {attacker}'s {ability}");
-        ConfigManager.languageConfig.get().addDefault("Abilities.Water.GoldenShower.DeathMessage", "{victim} drowned in {attacker}'s {ability}" + " kinky");
+        ConfigManager.languageConfig.get().addDefault("Abilities.Water.GoldenShower.DeathMessage", "{victim} drowned in {attacker}'s {ability} §fkinky");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissAura.DeathMessage", "{victim} was boiled to death {attacker}'s {ability}");
-        ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissSplatter.DeathMessage", "{victim} was washed away by {attacker}'s {ability}");
+        ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissSplatter.DeathMessage", "{victim} slipped in {attacker}'s {ability}");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissStream.DeathMessage", "{victim} drank too much of {attacker}'s {ability}");
-        ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissSwirl.DeathMessage", "{victim} was washed away by {attacker}'s {ability}");
-        ConfigManager.languageConfig.get().addDefault("Abilities.Water.SplitStream.DeathMessage", "{attacker}'s {ability} went up too many of {victim}'s");
-        ConfigManager.languageConfig.get().addDefault("Abilities.Water.Tinkle.DeathMessage", "{victim} was washed away by {attacker}'s {ability}");
+        ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissSwirl.DeathMessage", "{victim} died while looking at {attacker}'s {ability}");
+        ConfigManager.languageConfig.get().addDefault("Abilities.Water.Tinkle.DeathMessage", "{attacker}'s {ability} §fwas too much for {victim} §fto handle");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.ToiletExplode.DeathMessage", "{victim} was exploded by {attacker}'s fat shit");
-        ConfigManager.languageConfig.get().addDefault("Abilities.Water.UrinalInfection.DeathMessage", "{victim} was burned to death when {attacker}'s gave {victim} their {ability}");
+        ConfigManager.languageConfig.get().addDefault("Abilities.Water.UrinalInfection.DeathMessage", "{victim} was burned to death when {attacker} gave {victim} their {ability}");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.UTI.DeathMessage", "{victim} was choked to death by the stench of {attacker}'s {ability}");
 
 
@@ -40,7 +39,6 @@ public class ConfigPath {
     private void PissConfig() {
 
         FileConfiguration config = Pissaddon.getPlugin().getConfig();
-        ProjectKorra.plugin.getConfig().addDefault("suss", "sus");
 
         config.addDefault("ExtraAbilities.Sammycocobear.PissStream.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissStream.distance", 20);
@@ -65,15 +63,19 @@ public class ConfigPath {
 
         config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.distance", 20);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.cooldown",2000);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.speed", 1);
 
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.distance", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.damage", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.poisonamp", 3);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.poisonduration", 10);
+        config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.hitbox", 1);
 
         config.addDefault("ExtraAbilities.Sammycocobear.SplitStream.damage", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.SplitStream.cooldown", 2000);
+        config.addDefault("ExtraAbilities.Sammycocobear.SplitStream.distance", 20);
+
 
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.size", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.cooldown", 2000);
@@ -110,6 +112,8 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.damage", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.duration", 2000);
+        config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.hitbox", 1);
+
 
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.duration", 2000);
@@ -124,10 +128,21 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.sourcerange", 12);
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.duration", 2000);
 
-        config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.jumpvelo", 2);
-        config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.height", 1);
-        config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.cooldown", 2000);
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeDash.jumpvelo", 2);
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeDash.height", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeDash.cooldown", 2000);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.LevDuration", 10);
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.LevAmp", 10);
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.Duration", 1000);
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.Cooldown", 2000);
+
+        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.radius", 1);
+        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.speed", 1);
+        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.damage", 1);
+        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.hitbox", 1);
+        config.addDefault("ExtraAbilites.Sammycocobear.PissSwirl.cooldown", 2000);
 
 
 

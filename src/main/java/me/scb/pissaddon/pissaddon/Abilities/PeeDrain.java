@@ -153,4 +153,12 @@ public class PeeDrain extends PissAbility implements AddonAbility {
     public String getVersion() {
         return "1.0.0";
     }
+
+    @Override
+    public String getDescription() {
+        return "Send a fountain of piss gushing onto your opponent.";
+    }
+    public String getInstructions() {
+        return "<left click> an area close to your opponent";
+    }
 }

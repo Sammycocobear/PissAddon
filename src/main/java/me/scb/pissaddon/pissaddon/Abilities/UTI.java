@@ -41,12 +41,11 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
     public UTI(Player player) {
 
         super(player);
-        this.cooldown = 2000;
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.direction = player.getLocation().getDirection();
-        this.perm = new Permission("bending.ability.UTI");
-        distancetraveled = 25;
-
+        this.direction.multiply(0.8D);
+        this.distancetraveled = 0.0D;
+        hurt = new HashSet<>();
 
         if (this.bPlayer.isOnCooldown(this)) {
             return;
@@ -65,30 +64,36 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
         slowduration = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.UTI.slowduration");
     }
 
-    @Override
     public void progress() {
-
-
-        this.affectTargets();
-
-        GeneralMethods.displayColoredParticle("964B00", this.location, 1, 0.1D, 0.1D, 0.1D);
-        if (ThreadLocalRandom.current().nextInt(6) == 0) {
-            this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
+        if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
+            this.remove();
+        } else if (this.location.getBlock().getType().isSolid()) {
+            this.remove();
+        } else if (this.distancetraveled > distance) {
+            this.remove();
+        } else {
+            this.affectTargets();
+            GeneralMethods.displayColoredParticle("964B00", this.location, 1, 0.1D, 0.1D, 0.1D);
+            if (ThreadLocalRandom.current().nextInt(6) == 0) {
+                this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
+            }
+            this.location.add(this.direction);
+            this.distancetraveled += this.direction.length();
         }
-        this.location.add(this.direction);
-        this.distancetraveled += this.direction.length();
+
     }
 
 
+//(LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, slowduration, slowamp));
+private void affectTargets() {
+    List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
+    Iterator var2 = targets.iterator();
 
-    private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
-        Iterator var2 = targets.iterator();
-
-        while (var2.hasNext()) {
-            Entity target = (Entity) var2.next();
-            if (target.getUniqueId() != this.player.getUniqueId() && target instanceof LivingEntity) {
-                ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, slowduration, slowamp));
+    while (var2.hasNext()) {
+        Entity target = (Entity) var2.next();
+        if (target.getUniqueId() != this.player.getUniqueId()) {
+            if (target instanceof LivingEntity) {
+                ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,slowduration,slowamp));
                 target.setVelocity(this.direction);
                 if (!this.hurt.contains(target)) {
                     DamageHandler.damageEntity(target, damage, this);
@@ -101,7 +106,13 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
             }
 
         }
+    }
+}
 
+
+    public void  remove(){
+        super.remove();
+        bPlayer.addCooldown(this, cooldown);
     }
 
     @Override
@@ -139,7 +150,7 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
         HandlerList.unregisterAll(new PissListener());
 
     }
-
+//Send your viral piss infection to your opponent.
     @Override
     public String getAuthor() {
         return "Sammycocobear";
@@ -148,6 +159,14 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
     @Override
     public String getVersion() {
         return "1.0.0";
+    }
+
+    public String getInstructions() {
+        return "UrinalInfection -> Tapshift, Tinkle -> LeftClick";
+    }
+
+    public String getDescription() {
+        return "Send your viral piss infection to your opponent.";
     }
 
     @Override
@@ -160,7 +179,7 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
         return new ArrayList(Arrays.asList(
                 new ComboManager.AbilityInformation("UrinalInfection", ClickType.SHIFT_DOWN),
                 new ComboManager.AbilityInformation("UrinalInfection", ClickType.SHIFT_UP),
-                new ComboManager.AbilityInformation("Tinke", ClickType.LEFT_CLICK)));
+                new ComboManager.AbilityInformation("Tinkle", ClickType.LEFT_CLICK)));
     }
 }
 

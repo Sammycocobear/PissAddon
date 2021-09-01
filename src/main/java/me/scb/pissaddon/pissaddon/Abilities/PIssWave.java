@@ -269,13 +269,22 @@ public class PIssWave extends PissAbility implements AddonAbility {
 
     }
 
+
+    //Project a tsunami of piss at your opponent.
+    public String getInstructions() {
+        return "<left-click>";
+    }
+
+    public String getDescription() {
+        return "Project a tsunami of piss at your opponent. ";
+    }
     @Override
     public String getAuthor() {
-        return null;
+        return "Sammycocobear";
     }
 
     @Override
     public String getVersion() {
-        return null;
+        return "1.0.0";
     }
 }

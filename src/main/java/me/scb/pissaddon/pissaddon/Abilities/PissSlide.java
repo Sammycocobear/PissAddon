@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import me.scb.pissaddon.pissaddon.FallDamageHelper;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
@@ -27,6 +28,7 @@ public class PissSlide extends PissAbility implements AddonAbility {
     private long cooldown;
     private int distance;
     private Location location;
+    private double speed;
 
 
     public PissSlide(Player player) {
@@ -39,11 +41,12 @@ public class PissSlide extends PissAbility implements AddonAbility {
     private void setfields() {
         this.cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissSlide.cooldown");
         this.distance = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissSlide.distance");
+        speed = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSlide.speed");
     }
 
     public void progress() {
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
-        this.direction = player.getEyeLocation().getDirection().normalize().multiply(0.8);
+        this.direction = player.getEyeLocation().getDirection().normalize().multiply(speed);
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
@@ -65,7 +68,7 @@ public class PissSlide extends PissAbility implements AddonAbility {
 
     private void affectTargets() {
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
-        this.direction = player.getEyeLocation().getDirection().normalize().multiply(0.8);
+        this.direction = player.getEyeLocation().getDirection().normalize().multiply(speed   );
         List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 2);
         Iterator var2 = targets.iterator();
 
@@ -80,6 +83,7 @@ public class PissSlide extends PissAbility implements AddonAbility {
     public void remove(){
         super.remove();
         this.bPlayer.addCooldown(this,cooldown);
+        FallDamageHelper.addFallDamageCap(player, 0 );
 
     }
 
@@ -122,10 +126,10 @@ public class PissSlide extends PissAbility implements AddonAbility {
     }
 
     public String getDescription() {
-        return "Powerful PissStream coming out of your Vagina to kill everyone.";
+        return "Use your piss to zoom across the floor to get to the toilet in time.";
     }
 
     public String getInstructions() {
-        return "left click to shoot piss from your vagina up your arm";
+        return "<tap-shift>";
     }
 }

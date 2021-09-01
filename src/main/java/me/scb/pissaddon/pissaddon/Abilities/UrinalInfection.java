@@ -151,6 +151,13 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
         HandlerList.unregisterAll(this.listener);
 
     }
+    public String getInstructions() {
+        return "<left-click>";
+    }
+
+    public String getDescription() {
+        return "Send ur viral... infection to your target";
+    }
 
     public String getAuthor() {
         return "Sammycocobear";

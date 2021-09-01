@@ -63,7 +63,7 @@ public class PissStream extends PissAbility implements AddonAbility {
         } else {
             this.affectTargets();
 
-            GeneralMethods.displayColoredParticle("ffff00", this.location, 1, 0.1D, 0.1D, 0.1D);
+            GeneralMethods.displayColoredParticle("ffff00", this.location, 5, .3D, 0.3D, 0.3D);
             if (ThreadLocalRandom.current().nextInt(6) == 0) {
                 this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
             }
@@ -133,4 +133,13 @@ public class PissStream extends PissAbility implements AddonAbility {
     public String getVersion() {
         return "1.0.0";
     }
+
+    public String getInstructions() {
+        return "<left-click>";
+    }
+
+    public String getDescription() {
+        return "Squirt a stream of piss at your opponent.";
+    }
+
 }

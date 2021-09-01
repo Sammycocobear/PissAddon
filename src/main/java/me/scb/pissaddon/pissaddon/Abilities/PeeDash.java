@@ -2,6 +2,7 @@ package me.scb.pissaddon.pissaddon.Abilities;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.attribute.Attribute;
+import me.scb.pissaddon.pissaddon.FallDamageHelper;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
@@ -13,48 +14,51 @@ import org.bukkit.util.Vector;
 public class PeeDash extends PissAbility implements AddonAbility {
     private Location location;
     @Attribute("Height")
-    private int height;
+    private double height;
     @Attribute("Cooldown")
     private long cooldown;
     private PissListener listener;
-    private int jump;
+    private double jump;
 
 
     public PeeDash(Player player) {
         super(player);
         if (this.bPlayer.canBend(this)) {
             this.location = player.getLocation();
-            if(this.bPlayer.isOnCooldown(this)){
+            if (this.bPlayer.isOnCooldown(this)) {
                 return;
             }
             setfields();
-            bPlayer.addCooldown(this,this.cooldown);
+            bPlayer.addCooldown(this, this.cooldown);
             this.start();
         }
     }
 
     private void setfields() {
-        jump = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.jumpvelo");
-        height = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.height");
-        cooldown = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.WaterSports.cooldown");
+        jump = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDash.jumpvelo");
+        height = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDash.height");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PeeDash.cooldown");
     }
 
     @Override
     public void progress() {
-        if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
+        if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             remove();
             return;
         }
-            Vector vector = this.player.getLocation().getDirection().normalize().multiply((float) this.jump);
-            vector.setY((float) this.height);
-            this.player.setVelocity(vector);
-            this.player.getLocation();
-            GeneralMethods.displayColoredParticle("ffff00", this.location, 30, 0.5D, 1.0D, 0.5D);
-            this.bPlayer.addCooldown(this, this.cooldown);
-            this.remove();
-        }
+        Vector vector = this.player.getLocation().getDirection().normalize().multiply((float) this.jump);
+        vector.setY((float) this.height);
+        this.player.setVelocity(vector);
+        this.player.getLocation();
+        GeneralMethods.displayColoredParticle("ffff00", this.location, 30, 0.5D, 1.0D, 0.5D);
+        this.bPlayer.addCooldown(this, this.cooldown);
+        this.remove();
+    }
 
-
+    public void  remove(){
+        super.remove();
+        FallDamageHelper.addFallDamageCap(player, 0);
+    }
 
     @Override
     public boolean isSneakAbility() {
@@ -92,6 +96,13 @@ public class PeeDash extends PissAbility implements AddonAbility {
     public void stop() {
         HandlerList.unregisterAll(this.listener);
 
+    }
+    public String getInstructions() {
+        return "Launch yourself with your pee in a quick dash motion.";
+    }
+
+    public String getDescription() {
+        return "<left-click>";
     }
 
     @Override

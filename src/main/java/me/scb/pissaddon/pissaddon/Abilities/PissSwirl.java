@@ -3,9 +3,11 @@ package me.scb.pissaddon.pissaddon.Abilities;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
+import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,13 +23,15 @@ public class PissSwirl extends PissAbility implements AddonAbility {
     private int phase;
     private final int particleDensity;
     private final int angleIncrease;
-    private final double radius;
+    private double radius;
     private long cooldown;
     private Location location;
     private Location origin;
     private Vector direction;
     private double speed;
     private int distance;
+    private double damage;
+    private double hitbox;
 
     private double rotation;
     private Set<Entity> hurt;
@@ -38,24 +42,32 @@ public class PissSwirl extends PissAbility implements AddonAbility {
         this.direction = player.getLocation().getDirection();
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.origin = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
-        this.speed = 0.3D;
         this.distance = 25;
-        this.cooldown = 2000L;
         this.rotation = 0.0D;
         this.hurt = new HashSet();
         this.origin = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
-        this.radius = 0.5;
         this.angleIncrease = 5;
         this.particleDensity = 5;
         this.phase = 0;
         if (!hasAbility(player, PissSwirl.class)) {
             if (!this.bPlayer.isOnCooldown(this)) {
                 if (this.bPlayer.canBend(this)) {
+                    setfields();
                     this.bPlayer.addCooldown(this, this.cooldown);
                     this.start();
                 }
             }
         }
+    }
+
+    private void setfields() {
+        radius = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.radius");
+        cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilites.Sammycocobear.PissSwirl.cooldown");
+        speed = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.speed");
+        damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.damage");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilites.Sammycocobear.PissSwirl.hitbox");
+
+
     }
 
     public void progress() {
@@ -93,7 +105,7 @@ public class PissSwirl extends PissAbility implements AddonAbility {
         }
     }
     private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 1.0D);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while (var2.hasNext()) {
@@ -103,7 +115,7 @@ public class PissSwirl extends PissAbility implements AddonAbility {
                 target.setVelocity(this.direction);
                 target.setFireTicks(1);
                 if (!this.hurt.contains(target)) {
-                    DamageHandler.damageEntity(target, 4.0D, this);
+                    DamageHandler.damageEntity(target, damage, this);
                     this.hurt.add(target);
                 }
 
@@ -144,8 +156,13 @@ public class PissSwirl extends PissAbility implements AddonAbility {
         ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new PissListener(), ProjectKorra.plugin);
 
     }
+    public String getInstructions() {
+        return "<left-click>";
+    }
 
-    public void stop() {
+    public String getDescription() {
+        return "Sent a swirling gush of piss at your opponent.";
+    }    public void stop() {
         HandlerList.unregisterAll(new PissListener());
     }
 

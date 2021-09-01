@@ -164,14 +164,21 @@ public class WaterSports extends PissAbility implements AddonAbility {
         HandlerList.unregisterAll(listener);
 
     }
+    public String getInstructions() {
+        return "<left-click>";
+    }
+
+    public String getDescription() {
+        return "Cover yourself in piss to give yourself protection & super speed.";
+    }
 
     @Override
     public String getAuthor() {
-        return null;
+        return "Sammycocobear";
     }
 
     @Override
     public String getVersion() {
-        return null;
+        return "1.0.0";
     }
 }

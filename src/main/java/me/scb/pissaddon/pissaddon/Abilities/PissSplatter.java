@@ -146,6 +146,9 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     }
 
     public String getDescription() {
-        return "Left click to unleash a deafening scream";
+        return "Use your own piss to hold your opponent down in place.";
+    }
+    public String getInstructions() {
+        return "<tap-shift>";
     }
 }

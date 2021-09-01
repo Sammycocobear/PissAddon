@@ -14,11 +14,13 @@ import me.scb.pissaddon.pissaddon.Abilities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -57,9 +59,6 @@ public class PissListener implements Listener {
             if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PeeDash")) {
                 new PeeDash(player);
             }
-            if (bPlayer.getBoundAbilityName().equalsIgnoreCase("SplitStream")) {
-                new SplitStream(player);
-            }
             if (bPlayer.getBoundAbilityName().equalsIgnoreCase("WaterSports")) {
                 new WaterSports(player);
             }
@@ -76,6 +75,9 @@ public class PissListener implements Listener {
         if (bPlayer != null) {
             CoreAbility coreAbil = bPlayer.getBoundAbility();
             String abil = bPlayer.getBoundAbilityName();
+            if(player.isSneaking()){
+                return;
+            }
             if (coreAbil != null) {
                 if (abil.equalsIgnoreCase("PissSlide") && bPlayer.canBend(CoreAbility.getAbility(PissSlide.class)) && !CoreAbility.hasAbility(player, PissSlide.class)) {
                     new PissSlide(player);
@@ -98,10 +100,22 @@ public class PissListener implements Listener {
     public void onPKReload(final BendingReloadEvent event) {
         Bukkit.getScheduler().runTaskLater(Pissaddon.getPlugin(), Pissaddon::reload, 1);
     }
-
-
-
-
+    @EventHandler
+    public void onFall (EntityDamageEvent event){
+        final Entity entity = event.getEntity();
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL && entity instanceof LivingEntity) {
+            final LivingEntity livingEntity = (LivingEntity) entity;
+            if (FallDamageHelper.hasFallDamageCap(livingEntity)) {
+                final double damageCap = FallDamageHelper.getFallDamageCap(livingEntity);
+                if (damageCap <= 0) {
+                    event.setCancelled(true);
+                } else {
+                    event.setDamage(Math.min(damageCap, event.getDamage()));
+                }
+                FallDamageHelper.removeFallDamageCap(livingEntity);
+            }
+        }
+    }
 }
 
 

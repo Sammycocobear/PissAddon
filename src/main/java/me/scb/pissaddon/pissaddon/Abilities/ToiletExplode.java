@@ -25,24 +25,21 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
     private long duration;
     private double t;
     private Vector direction;
-    private Location loc;
     private double height;
     private double width;
+    private double hitbox;
 
 
     public ToiletExplode(Player player) {
         super(player);
-        this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.t = 0;
-        loc = player.getLocation();
         this.hurt = new HashSet();
         this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
-        this.direction.multiply(0.8D);
         if (this.bPlayer.isOnCooldown(this)) {
             return;
         }
         setfields();
-        this.bPlayer.addCooldown("ToiletExplode", this.cooldown);
+        this.bPlayer.addCooldown(this, this.cooldown);
         start();
     }
 
@@ -52,13 +49,14 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
         duration = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.ToiletExplode.duration");
         height = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.ToiletExplode.height");
         width = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.ToiletExplode.width");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.ToiletExplode.hitbox");
 
     }
 
 
     @Override
     public void progress() {
-        long time = System.currentTimeMillis();
+        time = System.currentTimeMillis();
         if (this.time - this.getStartTime() < this.duration) {
             math();
         }
@@ -70,6 +68,7 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
 
 
     public void math() {
+        this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         if (this.time - this.getStartTime() > this.duration) {
             this.remove();
             return;
@@ -79,18 +78,19 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
             double x = t * (Math.cos(theta)*width);
             double y = (-4 * Math.exp(-0.1 * t) * Math.sin(t) + 1.5 * height);
             double z = (t * Math.sin(theta) * width);
-            loc.add(x, y, z);
+            location.add(x, y, z);
             this.affectTargets(location);
-            GeneralMethods.displayColoredParticle("ffff00", loc);
-            GeneralMethods.displayColoredParticle("964B00", loc);
-            loc.subtract(x, y, z);
+            GeneralMethods.displayColoredParticle("ffff00", location);
+            GeneralMethods.displayColoredParticle("964B00", location);
+            location.subtract(x, y, z);
             this.time = System.currentTimeMillis();
 
         }
     }
 
     private void affectTargets(Location location) {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 10);
+        this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
