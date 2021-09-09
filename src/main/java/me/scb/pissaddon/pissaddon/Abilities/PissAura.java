@@ -228,4 +228,8 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
     public ArrayList getCombination() {
         return new ArrayList<>(Arrays.asList(new AbilityInformation("PissStream", ClickType.SHIFT_DOWN), new AbilityInformation("PissSlide", ClickType.LEFT_CLICK), new AbilityInformation("PissSlide", ClickType.LEFT_CLICK)));
     }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissAura.Enabled");
+    }
 }

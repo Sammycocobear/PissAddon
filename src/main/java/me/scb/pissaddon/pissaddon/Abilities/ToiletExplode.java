@@ -180,4 +180,8 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
                 new ComboManager.AbilityInformation("GoldenShower", ClickType.SHIFT_UP),
                 new ComboManager.AbilityInformation("UrinalInfection", ClickType.LEFT_CLICK)));
     }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.ToiletExplode.Enabled");
+    }
 }

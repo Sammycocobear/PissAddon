@@ -164,4 +164,8 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
     public String getVersion() {
         return "1.0.0";
     }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.UrinalInfection.Enabled");
+    }
 }

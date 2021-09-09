@@ -204,6 +204,10 @@ public class Tinkle extends PissAbility implements AddonAbility {
         ProjectKorra.plugin.getServer().getPluginManager().registerEvents(listener,  ProjectKorra.plugin);
 
     }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.Tinkle.Enabled");
+    }
 
     @Override
     public void stop() {

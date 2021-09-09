@@ -62,7 +62,6 @@ public class PissStream extends PissAbility implements AddonAbility {
             this.remove();
         } else {
             this.affectTargets();
-
             GeneralMethods.displayColoredParticle("ffff00", this.location, 5, .3D, 0.3D, 0.3D);
             if (ThreadLocalRandom.current().nextInt(6) == 0) {
                 this.location.getWorld().playSound(this.location, Sound.WEATHER_RAIN, 0.1F, 1.0F);
@@ -95,6 +94,10 @@ public class PissStream extends PissAbility implements AddonAbility {
     public void remove() {
         super.remove();
         this.hurt.clear();
+    }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissStream.Enabled");
     }
 
     public boolean isSneakAbility() {

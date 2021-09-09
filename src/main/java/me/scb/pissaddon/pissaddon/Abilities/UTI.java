@@ -181,6 +181,10 @@ private void affectTargets() {
                 new ComboManager.AbilityInformation("UrinalInfection", ClickType.SHIFT_UP),
                 new ComboManager.AbilityInformation("Tinkle", ClickType.LEFT_CLICK)));
     }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.UTI.Enabled");
+    }
 }
 
 

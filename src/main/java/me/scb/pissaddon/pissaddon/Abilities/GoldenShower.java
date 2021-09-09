@@ -104,7 +104,7 @@ public class GoldenShower extends PissAbility implements AddonAbility {
             }
         }
 
-    }//
+    }
 
 
     public boolean isSneakAbility() {
@@ -148,6 +148,10 @@ public class GoldenShower extends PissAbility implements AddonAbility {
     }
     public String getInstructions() {
         return "<left-click>";
+    }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.GoldenShower.Enabled");
     }
 
 }

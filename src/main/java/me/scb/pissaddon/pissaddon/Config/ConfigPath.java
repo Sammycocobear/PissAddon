@@ -40,11 +40,14 @@ public class ConfigPath {
 
         FileConfiguration config = Pissaddon.getPlugin().getConfig();
 
+        config.addDefault("ExtraAbilities.Sammycocobear.PissStream.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissStream.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissStream.distance", 20);
         config.addDefault("ExtraAbilities.Sammycocobear.PissStream.damage", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissStream.hitbox",1);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.UTI.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.UTI.cooldown", 2000L);
         config.addDefault("ExtraAbilities.Sammycocobear.UTI.distance", 10.0D);
         config.addDefault("ExtraAbilities.Sammycocobear.UTI.damage", 5.0D);
@@ -52,6 +55,8 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.UTI.slowamp", 5);
         config.addDefault("ExtraAbilities.Sammycocobear.UTI.hitbox", 1);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.PissAura.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.cooldown", 2000L);
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.distance", 25.0D);
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.damage", 5.0D);
@@ -61,10 +66,14 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.maxRadius", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.damage", 2);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.distance", 20);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.cooldown",2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.speed", 1);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.distance", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.damage", 2);
@@ -72,17 +81,16 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.poisonduration", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.UrinalInfection.hitbox", 1);
 
-        config.addDefault("ExtraAbilities.Sammycocobear.SplitStream.damage", 2);
-        config.addDefault("ExtraAbilities.Sammycocobear.SplitStream.cooldown", 2000);
-        config.addDefault("ExtraAbilities.Sammycocobear.SplitStream.distance", 20);
 
-
+        config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.size", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.duration", 1000);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.hitbox", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.damage",2);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.particles", 90);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.sourcerange", 15);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.hitbox", 1);
@@ -91,6 +99,8 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.duration", 1000);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.knockback", 1);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.speedduration", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.speedamp", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.duration", 10000);
@@ -99,6 +109,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.resistanceamp", 10);
 
 
+        config.addDefault("ExtraAbilities.Sammycocobear.PissWave.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissWave.distance", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.PissWave.speed", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissWave.damage", 2);
@@ -107,6 +118,8 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissWave.height", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissWave.width", 5);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.width", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.height", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.cooldown", 2000);
@@ -115,12 +128,15 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.ToiletExplode.hitbox", 1);
 
 
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.duration", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.radius", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.hitbox", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.damage", 1);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.hitbox", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.radius", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.particles", 27);
@@ -129,16 +145,21 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.sourcerange", 12);
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.duration", 2000);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeDash.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDash.jumpvelo", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDash.height", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDash.cooldown", 2000);
 
 
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.LevDuration", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.LevAmp", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.Duration", 1000);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeRocket.Cooldown", 2000);
 
+
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.Enabled", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.radius", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.speed", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.damage", 1);

@@ -132,6 +132,10 @@ public class PeeRocket extends PissAbility implements AddonAbility {
         return "Use your piss to launch you in the air";
     }
     public String getInstructions() {
-        return "<tap-shift> to activate peerocket\n";
+        return "<tap-shift> to activate peerocket";
+    }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PeeRocket.Enabled");
     }
 }

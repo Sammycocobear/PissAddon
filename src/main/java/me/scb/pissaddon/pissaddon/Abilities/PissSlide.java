@@ -132,4 +132,8 @@ public class PissSlide extends PissAbility implements AddonAbility {
     public String getInstructions() {
         return "<tap-shift>";
     }
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissSlide.Enabled");
+    }
 }

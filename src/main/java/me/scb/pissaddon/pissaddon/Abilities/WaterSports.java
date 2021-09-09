@@ -155,14 +155,11 @@ public class WaterSports extends PissAbility implements AddonAbility {
     @Override
     public void load() {
         ProjectKorra.plugin.getServer().getPluginManager().registerEvents(listener, ProjectKorra.plugin);
-
-
     }
 
     @Override
     public void stop() {
         HandlerList.unregisterAll(listener);
-
     }
     public String getInstructions() {
         return "<left-click>";
@@ -180,5 +177,10 @@ public class WaterSports extends PissAbility implements AddonAbility {
     @Override
     public String getVersion() {
         return "1.0.0";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.WaterSports.Enabled");
     }
 }
