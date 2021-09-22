@@ -41,6 +41,9 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     private double radius;
     private double hitbox;
     private double damage;
+    private double angle;
+    private double angleIncrease;
+    private double particleCount;
 
     public PissSplatter(Player player) {
         super(player);
@@ -53,10 +56,8 @@ public class PissSplatter extends PissAbility implements AddonAbility {
         this.sinX = Math.sin(this.pitch);
         this.cosY = Math.cos(-this.yaw);
         this.sinY = Math.sin(-this.yaw);
-
-
         setfields();
-        this.bPlayer.addCooldown("PissSplatter", this.cooldown);
+        this.bPlayer.addCooldown(this, this.cooldown);
         this.start();
     }
 
@@ -66,11 +67,20 @@ public class PissSplatter extends PissAbility implements AddonAbility {
         cooldown = Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissSplatter.cooldown");
         hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.hitbox");
         damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.damage");
-
+        particleCount = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissSplatter.particleCount");
+        angle = 0;
+        angleIncrease = 360 / particleCount;
     }
 
     public void progress() {
         this.time = System.currentTimeMillis();
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (this.time - this.getStartTime() > this.duration) {
             this.remove();
         } else if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
@@ -79,11 +89,12 @@ public class PissSplatter extends PissAbility implements AddonAbility {
             this.remove();
         } else {
 
-            for(int i = 0; i < 360; ++i) {
-                double x = Math.sin(i);
-                double y = Math.cos(i);
-                double z = 0;
-                Vector vector = new Vector(x, z, y);
+            for (int i = 0; i < 1; ++i) {
+                double x = Math.sin(angle);
+                double y = 0;
+                double z = Math.cos(angle);
+                angle += angleIncrease;
+                Vector vector = new Vector(x,y,z);
                 vector = vector.multiply(radius);
                 this.location.add(vector);
                 this.affectTargets(location);
@@ -154,6 +165,11 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissSplatter.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.PissSplatter.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }

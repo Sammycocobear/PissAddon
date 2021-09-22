@@ -75,6 +75,13 @@ public class PissSwirl extends PissAbility implements AddonAbility {
             remove();
             return;
         }
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (this.location.distanceSquared(this.origin) >= (double)(this.distance * this.distance)) {
             this.remove();
         } else {
@@ -92,7 +99,6 @@ public class PissSwirl extends PissAbility implements AddonAbility {
                 double oldZ = vector.getZ();
                 vector.setY(oldY * Math.cos(pitch) - oldZ * Math.sin(pitch));
                 vector.setZ(oldY * Math.sin(pitch) + oldZ * Math.cos(pitch));
-                oldY = vector.getY();
                 oldZ = vector.getZ();
                 vector.setX(oldX * Math.cos(yaw) + oldZ * Math.sin(yaw));
                 vector.setZ(-oldX * Math.sin(yaw) + oldZ * Math.cos(yaw));
@@ -171,9 +177,15 @@ public class PissSwirl extends PissAbility implements AddonAbility {
     public String getVersion() {
         return "1.0.0";
     }
+
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissSwirl.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.Tinkle.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }
 

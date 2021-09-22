@@ -35,7 +35,7 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
     private double distancetraveled;
     private Set<Entity> hurt;
     private double collisionRadius;
-    private int poisonduration;
+    private long poisonduration;
     private double hitbox;
     private int poisonamp;
 
@@ -67,6 +67,13 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
     }
 
     public void progress() {
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
@@ -97,7 +104,7 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
             Entity target = (Entity) var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 if (target instanceof LivingEntity) {
-                    ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.POISON,poisonduration,poisonamp));
+                    ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.POISON, (int) poisonduration,poisonamp));
                     target.setVelocity(this.direction);
                     if (!this.hurt.contains(target)) {
                         DamageHandler.damageEntity(target, damage, this);
@@ -166,6 +173,11 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.UrinalInfection.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.UrinalInfection.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }

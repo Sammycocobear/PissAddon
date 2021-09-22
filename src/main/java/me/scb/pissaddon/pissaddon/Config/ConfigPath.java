@@ -1,6 +1,5 @@
 package me.scb.pissaddon.pissaddon.Config;
 
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,8 +25,6 @@ public class ConfigPath {
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.ToiletExplode.DeathMessage", "{victim} was exploded by {attacker}'s fat shit");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.UrinalInfection.DeathMessage", "{victim} was burned to death when {attacker} gave {victim} their {ability}");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.UTI.DeathMessage", "{victim} was choked to death by the stench of {attacker}'s {ability}");
-
-
 
         ConfigManager.languageConfig.save();
 
@@ -65,6 +62,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.arrivaltimeinticks", 20);
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.maxRadius", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.PissAura.damage", 2);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissAura.hitbox", 1);
 
 
         config.addDefault("ExtraAbilities.Sammycocobear.PissSlide.Enabled", true);
@@ -83,6 +81,7 @@ public class ConfigPath {
 
 
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.Enabled", true);
+        config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.Enabled",true);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.size", 10);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.Tinkle.duration", 1000);
@@ -91,13 +90,13 @@ public class ConfigPath {
 
 
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.Enabled", true);
-        config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.particles", 90);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.sourcerange", 15);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.hitbox", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.cooldown", 2000);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.size", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.duration", 1000);
         config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.knockback", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PeeDrain.ParticleCount", 30);
 
 
         config.addDefault("ExtraAbilities.Sammycocobear.WaterSports.Enabled", true);
@@ -134,6 +133,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.radius", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.hitbox", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.damage", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.particleCount", 20);
 
 
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.Enabled", true);
@@ -165,8 +165,6 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.damage", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.hitbox", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.cooldown", 2000);
-
-
 
         config.options().copyDefaults(true);
         Pissaddon.getPlugin().saveConfig();

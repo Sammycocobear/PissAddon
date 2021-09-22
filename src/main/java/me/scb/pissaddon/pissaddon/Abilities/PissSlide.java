@@ -47,6 +47,13 @@ public class PissSlide extends PissAbility implements AddonAbility {
     public void progress() {
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         this.direction = player.getEyeLocation().getDirection().normalize().multiply(speed);
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
@@ -134,6 +141,11 @@ public class PissSlide extends PissAbility implements AddonAbility {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissSlide.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.PissSlide.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }

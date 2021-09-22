@@ -45,6 +45,13 @@ public class PeeRocket extends PissAbility implements AddonAbility {
 
     @Override
     public void progress() {
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
             remove();
             return;
@@ -108,8 +115,6 @@ public class PeeRocket extends PissAbility implements AddonAbility {
     @Override
     public void load() {
         this.listener = new PissListener();
-
-
     }
 
     @Override
@@ -136,6 +141,11 @@ public class PeeRocket extends PissAbility implements AddonAbility {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PeeRocket.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.PeeRocket.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }

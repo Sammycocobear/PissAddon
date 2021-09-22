@@ -54,6 +54,13 @@ public class PissStream extends PissAbility implements AddonAbility {
     }
 
     public void progress() {
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
@@ -95,10 +102,7 @@ public class PissStream extends PissAbility implements AddonAbility {
         super.remove();
         this.hurt.clear();
     }
-    @Override
-    public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissStream.Enabled");
-    }
+
 
     public boolean isSneakAbility() {
         return false;
@@ -143,6 +147,15 @@ public class PissStream extends PissAbility implements AddonAbility {
 
     public String getDescription() {
         return "Squirt a stream of piss at your opponent.";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        String path = "ExtraAbilities.Sammycocobear.PissSwirl.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
 
 }

@@ -4,7 +4,6 @@ import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.ability.Ability;
 import com.projectkorra.projectkorra.ability.SubAbility;
 import com.projectkorra.projectkorra.ability.WaterAbility;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public abstract class PissAbility extends WaterAbility implements SubAbility {

@@ -32,11 +32,15 @@ public class PeeDrain extends PissAbility implements AddonAbility {
     private double hitbox;
     private double sourcerange;
     private double size;
-    private int particles;
+    private double angleIncrease;
+    private double particleCount;
+    private double angle;
+    private double kb; // knockback
 
 
     public PeeDrain(Player player) {
         super(player);
+
         if (this.bPlayer.isOnCooldown(this)) {
             return;
         }
@@ -46,7 +50,7 @@ public class PeeDrain extends PissAbility implements AddonAbility {
         setfields();
         this.location = GeneralMethods.getTargetedLocation(player, sourcerange, new Material[0]);
         this.direction = player.getLocation().getDirection();
-        this.direction.multiply(0.8D);
+        this.direction.multiply(kb);
         this.bPlayer.addCooldown("PeeDrain", this.cooldown);
         this.start();
     }
@@ -57,24 +61,36 @@ public class PeeDrain extends PissAbility implements AddonAbility {
         hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.hitbox");
         sourcerange = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.sourcerange");
         size = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.size");
-        particles = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PeeDrain.particles");
+        kb = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PeeDrain.Knockback");
+        particleCount = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PeeDrain.ParticleCount");
+        angle = 0;
+        angleIncrease = 360 / particleCount;
     }
 
     @Override
     public void progress() {
         this.time = System.currentTimeMillis();
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
             this.remove();
         } else {
             this.affectTargets();
-            for (int i = 0; i < particles; ++i) {
+            for (int i = 0; i < particleCount; ++i) {
                 double x = 0;
-                double y = Math.sin(i);
+                double y = Math.sin(angle);
                 double z = 0;
+                angle+= angleIncrease;
                 Vector vector = new Vector(x, y, z);
                 vector = vector.multiply(size);
+
                 this.location.add(vector);
                 GeneralMethods.displayColoredParticle("ffff00", this.location,1,.001,.001,.001);
                 this.location.subtract(vector);
@@ -162,6 +178,11 @@ public class PeeDrain extends PissAbility implements AddonAbility {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PeeDrain.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.PeeDrain.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }

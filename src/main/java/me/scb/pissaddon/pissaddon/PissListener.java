@@ -1,18 +1,10 @@
 package me.scb.pissaddon.pissaddon;
 
 import com.projectkorra.projectkorra.BendingPlayer;
-import com.projectkorra.projectkorra.Element;
-import com.projectkorra.projectkorra.ProjectKorra;
-import com.projectkorra.projectkorra.ability.Ability;
 import com.projectkorra.projectkorra.ability.CoreAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.event.BendingReloadEvent;
-import com.projectkorra.projectkorra.event.EntityBendingDeathEvent;
-import com.projectkorra.projectkorra.object.HorizontalVelocityTracker;
-import com.projectkorra.projectkorra.util.TempArmor;
 import me.scb.pissaddon.pissaddon.Abilities.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -21,17 +13,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class PissListener implements Listener {
-    private static final HashMap<Player, String> BENDING_PLAYER_DEATH = new HashMap<>();
-    private static final HashMap<Entity, Ability> BENDING_ENTITY_DEATH = new HashMap<>(); // Entities killed by Bending.
+
+    private Player player;
 
     public PissListener() {
     }
@@ -63,8 +50,9 @@ public class PissListener implements Listener {
                 new WaterSports(player);
             }
             if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PissWave")) {
-                new PIssWave(player);
+                new PissWave(player);
             }
+
         }
     }
 
@@ -75,13 +63,13 @@ public class PissListener implements Listener {
         if (bPlayer != null) {
             CoreAbility coreAbil = bPlayer.getBoundAbility();
             String abil = bPlayer.getBoundAbilityName();
-            if(player.isSneaking()){
+            if (player.isSneaking()) {
                 return;
             }
-            if (coreAbil != null) {
-                if (abil.equalsIgnoreCase("PissSlide") && bPlayer.canBend(CoreAbility.getAbility(PissSlide.class)) && !CoreAbility.hasAbility(player, PissSlide.class)) {
-                    new PissSlide(player);
-                }
+                if (coreAbil != null) {
+                    if (abil.equalsIgnoreCase("PissSlide") && bPlayer.canBend(CoreAbility.getAbility(PissSlide.class)) && !CoreAbility.hasAbility(player, PissSlide.class)) {
+                        new PissSlide(player);
+                    }
                 if (abil.equalsIgnoreCase("PissSplatter") && bPlayer.canBend(CoreAbility.getAbility(PissSplatter.class)) && !CoreAbility.hasAbility(player, PissSplatter.class)) {
                     new PissSplatter(player);
 
@@ -92,6 +80,7 @@ public class PissListener implements Listener {
                 if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Tinkle")) {
                     new Tinkle(player);
                 }
+
             }
         }
     }
@@ -100,8 +89,9 @@ public class PissListener implements Listener {
     public void onPKReload(final BendingReloadEvent event) {
         Bukkit.getScheduler().runTaskLater(Pissaddon.getPlugin(), Pissaddon::reload, 1);
     }
+
     @EventHandler
-    public void onFall (EntityDamageEvent event){
+    public void onFall(EntityDamageEvent event) {
         final Entity entity = event.getEntity();
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL && entity instanceof LivingEntity) {
             final LivingEntity livingEntity = (LivingEntity) entity;
@@ -116,7 +106,12 @@ public class PissListener implements Listener {
             }
         }
     }
+
 }
+
+
+
+
 
 
 

@@ -42,6 +42,13 @@ public class PeeDash extends PissAbility implements AddonAbility {
 
     @Override
     public void progress() {
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             remove();
             return;
@@ -116,6 +123,12 @@ public class PeeDash extends PissAbility implements AddonAbility {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PeeDash.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.PeeDash.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
+
 }

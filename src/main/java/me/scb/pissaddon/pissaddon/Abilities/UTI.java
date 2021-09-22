@@ -38,12 +38,12 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
     private int slowamp;
     private int slowduration;
 
+
     public UTI(Player player) {
 
         super(player);
         this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
-        this.direction = player.getLocation().getDirection();
-        this.direction.multiply(0.8D);
+        direction = player.getLocation().getDirection();
         this.distancetraveled = 0.0D;
         hurt = new HashSet<>();
 
@@ -65,6 +65,13 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
     }
 
     public void progress() {
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
@@ -84,7 +91,6 @@ public class UTI extends PissAbility implements AddonAbility, ComboAbility {
     }
 
 
-//(LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, slowduration, slowamp));
 private void affectTargets() {
     List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
     Iterator var2 = targets.iterator();
@@ -183,8 +189,13 @@ private void affectTargets() {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.UTI.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.UTI.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }
 
 

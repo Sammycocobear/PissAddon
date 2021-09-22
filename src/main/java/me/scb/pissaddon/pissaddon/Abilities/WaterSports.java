@@ -86,6 +86,13 @@ public class WaterSports extends PissAbility implements AddonAbility {
     @Override
     public void progress() {
         this.time = System.currentTimeMillis();
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (this.time - this.getStartTime() > this.duration) {
             this.remove();
             return;
@@ -178,9 +185,13 @@ public class WaterSports extends PissAbility implements AddonAbility {
     public String getVersion() {
         return "1.0.0";
     }
-
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.WaterSports.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.WaterSports.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }

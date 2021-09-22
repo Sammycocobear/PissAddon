@@ -52,6 +52,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
     private double sinWaveAmount;
     private int particleDensity;
     private int arrivalTime;
+    private double hitbox;
 
     public PissAura(Player player) {
         super(player);
@@ -97,6 +98,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
         this.cooldown =  Pissaddon.getPlugin().getConfig().getLong("ExtraAbilities.Sammycocobear.PissAura.cooldown");
         this.arrivalTime = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissAura.arrivaltimeinticks");
         damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.damage");
+        hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissAura.hitbox");
 
         this.phase = 0;
         this.angleIncrease = this.sinWaveAmount * 360 / this.arrivalTime;
@@ -110,6 +112,13 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
 
     @Override
     public void progress() {
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         if (this.location.distanceSquared(this.origin) >= (double)(this.distance * this.distance)) {
             this.remove();
         } else if (this.location.getBlock().getType().isSolid()) {
@@ -140,7 +149,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
 
 
     private void affectTargets() {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, 1);
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
         while(var2.hasNext()) {
@@ -230,6 +239,11 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissAura.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.PissAura.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 }

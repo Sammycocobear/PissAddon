@@ -69,6 +69,13 @@ public class GoldenShower extends PissAbility implements AddonAbility {
     }
 
     public void progress() {
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }
         this.time = System.currentTimeMillis();
         if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
             this.remove();
@@ -99,7 +106,6 @@ public class GoldenShower extends PissAbility implements AddonAbility {
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
-                target.setVelocity(this.direction);
                 DamageHandler.damageEntity(target, damage, this);
             }
         }
@@ -151,7 +157,12 @@ public class GoldenShower extends PissAbility implements AddonAbility {
     }
     @Override
     public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.GoldenShower.Enabled");
+        String path = "ExtraAbilities.Sammycocobear.GoldenShower.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
+
 
 }

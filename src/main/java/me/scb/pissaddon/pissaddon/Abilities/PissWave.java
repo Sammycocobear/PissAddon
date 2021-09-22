@@ -12,12 +12,11 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class PIssWave extends PissAbility implements AddonAbility {
+public class PissWave extends PissAbility implements AddonAbility {
     public Color cloudColor = null;
 
 
@@ -71,7 +70,7 @@ public class PIssWave extends PissAbility implements AddonAbility {
     private double speed;
     private long cooldown;
 
-    public PIssWave(Player player) {
+    public PissWave(Player player) {
         super(player);
         waterCache = new HashSet<>();
         cloudCache = new HashSet<>();
@@ -81,7 +80,7 @@ public class PIssWave extends PissAbility implements AddonAbility {
         distancetraveled = 25;
  
         this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
-        if (CoreAbility.hasAbility(player, PIssWave.class)) return;
+        if (CoreAbility.hasAbility(player, PissWave.class)) return;
         if(this.bPlayer.isOnCooldown(this)){
             return;
         }
@@ -114,6 +113,13 @@ public class PIssWave extends PissAbility implements AddonAbility {
         }
         if(!this.bPlayer.canBendIgnoreBindsCooldowns(this)){
             remove();
+            return;
+        }
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
             return;
         }
 
@@ -160,9 +166,7 @@ public class PIssWave extends PissAbility implements AddonAbility {
         if (n2.getX() < 0) n2.multiply(-1);
 
         yaw = (-location.getYaw() + 90) * degreesToRadians;
-//ya maybe today
-        // LMAO i want to get custom kill messages done, but idk how to do them
-        // theres a method in pk
+
 
         for (int i = 0; i < particlesFront; i++) {
             float ratio = (float) i / particlesFront;
@@ -268,10 +272,7 @@ public class PIssWave extends PissAbility implements AddonAbility {
     public void stop() {
 
     }
-    @Override
-    public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.PissWave.Enabled");
-    }
+
 
 
     public String getInstructions() {
@@ -289,5 +290,14 @@ public class PIssWave extends PissAbility implements AddonAbility {
     @Override
     public String getVersion() {
         return "1.0.0";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        String path = "ExtraAbilities.Sammycocobear.PissWave.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
 }

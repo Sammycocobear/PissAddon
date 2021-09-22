@@ -1,7 +1,6 @@
 package me.scb.pissaddon.pissaddon.CMDS;
 
     import com.projectkorra.projectkorra.command.PKCommand;
-    import me.scb.pissaddon.pissaddon.Config.Config;
     import me.scb.pissaddon.pissaddon.Config.ConfigPath;
     import me.scb.pissaddon.pissaddon.Pissaddon;
     import org.bukkit.ChatColor;

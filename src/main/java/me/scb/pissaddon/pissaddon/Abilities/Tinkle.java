@@ -9,7 +9,6 @@ import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.util.Vector;
@@ -74,8 +73,17 @@ public class Tinkle extends PissAbility implements AddonAbility {
 
     @Override
     public void progress() {
-
         time = System.currentTimeMillis();
+        if (this.player.isDead() || !this.player.isOnline()) {
+            this.remove();
+            return;
+        } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+            this.remove();
+            return;
+        }else if(this.location.getBlock().getType().isSolid()){
+            remove();
+            return;
+        }
         if (this.time - this.getStartTime() > this.duration) {
             this.remove();
             return;
@@ -84,6 +92,7 @@ public class Tinkle extends PissAbility implements AddonAbility {
             remove();
             return;
         }
+
 
         for (int j = 0; j < stepsPerIteration; j++) {
             if (step % particles == 0) {
@@ -107,7 +116,6 @@ public class Tinkle extends PissAbility implements AddonAbility {
                 rotateAroundAxisX(v, rndAngle.get(i));
                 rotateAroundAxisZ(v, -location.getPitch() * degreesToRadians);
                 rotateAroundAxisY(v, -(location.getYaw() + 90) * degreesToRadians);
-
                 location.add(v);
                 this.affectTargets(location);
                 GeneralMethods.displayColoredParticle("ffff00",location);
@@ -120,9 +128,6 @@ public class Tinkle extends PissAbility implements AddonAbility {
     }
 
     private void affectTargets( Location location ) {
-        this.direction = player.getLocation().getDirection().normalize().multiply(0.8D);
-
-
         List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
         Iterator var2 = targets.iterator();
 
@@ -204,14 +209,12 @@ public class Tinkle extends PissAbility implements AddonAbility {
         ProjectKorra.plugin.getServer().getPluginManager().registerEvents(listener,  ProjectKorra.plugin);
 
     }
-    @Override
-    public boolean isEnabled() {
-        return Pissaddon.getPlugin().getConfig().getBoolean("ExtraAbilities.Sammycocobear.Tinkle.Enabled");
-    }
+
 
     @Override
     public void stop() {
         HandlerList.unregisterAll(listener);
+
 
     }
     public String getInstructions() {
@@ -229,5 +232,13 @@ public class Tinkle extends PissAbility implements AddonAbility {
     @Override
     public String getVersion() {
         return "1.0.0";
+    }
+    @Override
+    public boolean isEnabled() {
+        String path = "ExtraAbilities.Sammycocobear.Tinkle.Enabled";
+        if (Pissaddon.getPlugin().getConfig().contains(path)) {
+            return Pissaddon.getPlugin().getConfig().getBoolean(path);
+        }
+        return false;
     }
 }
