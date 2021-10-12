@@ -10,14 +10,12 @@ import java.util.logging.Logger;
 public final class Pissaddon extends JavaPlugin {
     public static Pissaddon plugin;
     private static String author;
-    private static String version;
     private static Logger log;
 
 
     public Pissaddon() {
         plugin = this;
         log = this.getLogger();
-        version = "1.1.0";
         author = "Sammycocobear";
     }
 
