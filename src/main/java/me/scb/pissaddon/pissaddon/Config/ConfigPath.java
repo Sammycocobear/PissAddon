@@ -25,6 +25,7 @@ public class ConfigPath {
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.ToiletExplode.DeathMessage", "{victim} was exploded by {attacker}'s fat shit");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.UrinalInfection.DeathMessage", "{victim} was burned to death when {attacker} gave {victim} their {ability}");
         ConfigManager.languageConfig.get().addDefault("Abilities.Water.UTI.DeathMessage", "{victim} was choked to death by the stench of {attacker}'s {ability}");
+        ConfigManager.languageConfig.get().addDefault("Abilities.Water.PissTrap.DeathMessage", "{victim} got trapped in {attacker}'s {ability}");
 
         ConfigManager.languageConfig.save();
 
@@ -178,7 +179,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.sourcerange", 15);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.speed", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.range", 10);
-        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.ParticleSize", 2);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.ParticleSize", 2   );
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Cooldown", 10000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Paralyze", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.particleCount", 20);
