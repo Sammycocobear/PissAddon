@@ -181,7 +181,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.ParticleSize", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Cooldown", 10000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Paralyze", true);
-        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.particleCount", 90);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.particleCount", 20);
 
         config.options().copyDefaults(true);
         Pissaddon.getPlugin().saveConfig();
