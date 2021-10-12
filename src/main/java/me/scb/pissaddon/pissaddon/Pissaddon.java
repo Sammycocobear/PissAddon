@@ -17,7 +17,7 @@ public final class Pissaddon extends JavaPlugin {
     public Pissaddon() {
         plugin = this;
         log = this.getLogger();
-        version = "1.0.0";
+        version = "1.1.0";
         author = "Sammycocobear";
     }
 
