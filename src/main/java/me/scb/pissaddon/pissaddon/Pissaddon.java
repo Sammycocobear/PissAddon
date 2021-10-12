@@ -47,7 +47,7 @@ public final class Pissaddon extends JavaPlugin {
     }
 
     public static String getVersion() {
-        return version;
+        return "1.1.0";
     }
 
     public static Logger getLog() {
