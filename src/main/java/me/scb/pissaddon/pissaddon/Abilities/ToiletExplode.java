@@ -56,6 +56,7 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
 
     @Override
     public void progress() {
+        location = player.getLocation();
         if (this.player.isDead() || !this.player.isOnline()) {
             this.remove();
             return;
@@ -163,7 +164,7 @@ public class ToiletExplode extends PissAbility implements AddonAbility, ComboAbi
 
     @Override
     public String getVersion() {
-        return "1.0.0";
+        return Pissaddon.getVersion();
     }
     public String getInstructions() {
         return "PissSwirl(Tap Shift)->GoldenShower(Tap Shift)->UrinalInfection(Left Click)";

@@ -134,6 +134,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.hitbox", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.damage", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.particleCount", 20);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissSplatter.ParticleSize", 3);
 
 
         config.addDefault("ExtraAbilities.Sammycocobear.GoldenShower.Enabled", true);
@@ -165,6 +166,22 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.damage", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.hitbox", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissSwirl.cooldown", 2000);
+
+
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Enabled", true);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.radius", 10.0);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.duration", 10000);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.damage", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.hitbox", 1);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.paraduration", 1000);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.water", true);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.sourcerange", 15);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.speed", 2);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.range", 10);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.ParticleSize", 2);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Cooldown", 10000);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Paralyze", true);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.particleCount", 90);
 
         config.options().copyDefaults(true);
         Pissaddon.getPlugin().saveConfig();

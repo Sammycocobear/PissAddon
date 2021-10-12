@@ -39,9 +39,9 @@ public class Tinkle extends PissAbility implements AddonAbility {
     private double hitbox;
     private Set<Entity> hurt;
     private double damage;
+    private Vector direction;
 
     private double size;
-    private Vector direction;
 
     public Tinkle(Player player) {
         super(player);
@@ -49,6 +49,7 @@ public class Tinkle extends PissAbility implements AddonAbility {
         iterations = 200;
         rndF = new ArrayList<>(arcs);
         rndAngle = new ArrayList<>(arcs);
+        direction = player.getLocation().getDirection();
         this.hurt = new HashSet();
         if (this.bPlayer.isOnCooldown(this)) {
             return;
@@ -73,6 +74,7 @@ public class Tinkle extends PissAbility implements AddonAbility {
 
     @Override
     public void progress() {
+        Location location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
         time = System.currentTimeMillis();
         if (this.player.isDead() || !this.player.isOnline()) {
             this.remove();
@@ -80,21 +82,16 @@ public class Tinkle extends PissAbility implements AddonAbility {
         } else if (GeneralMethods.isRegionProtectedFromBuild(this, location)) {
             this.remove();
             return;
-        }else if(this.location.getBlock().getType().isSolid()){
-            remove();
-            return;
-        }
-        if (this.time - this.getStartTime() > this.duration) {
+        }else if (this.time - this.getStartTime() > this.duration) {
             this.remove();
             return;
-        }
-        if(!this.player.isSneaking()){
+        }else if(!this.player.isSneaking()){
             remove();
             return;
         }
 
 
-        for (int j = 0; j < stepsPerIteration; j++) {
+            for (int j = 0; j < stepsPerIteration; j++) {
             if (step % particles == 0) {
                 rndF.clear();
                 rndAngle.clear();
@@ -105,8 +102,6 @@ public class Tinkle extends PissAbility implements AddonAbility {
             while (rndAngle.size() < arcs) {
                 rndAngle.add(getRandomAngle());
             }
-
-            this.location = player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
             for (int i = 0; i < this.arcs; ++i) {
                 float pitch = rndF.get(i) * 2 * this.pitch - this.pitch;
                 float x = (step % particles) * length / particles;
@@ -117,9 +112,17 @@ public class Tinkle extends PissAbility implements AddonAbility {
                 rotateAroundAxisZ(v, -location.getPitch() * degreesToRadians);
                 rotateAroundAxisY(v, -(location.getYaw() + 90) * degreesToRadians);
                 location.add(v);
+                location.add(direction);
+                if(location.getBlock().getType().isSolid()) {
+                    remove();
+                    return;
+                }
+                location.subtract(direction);
                 this.affectTargets(location);
                 GeneralMethods.displayColoredParticle("ffff00",location);
                 location.subtract(v);
+
+
             }
 
             ++this.step;
@@ -127,21 +130,16 @@ public class Tinkle extends PissAbility implements AddonAbility {
 
     }
 
-    private void affectTargets( Location location ) {
-        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(this.location, hitbox);
+    private void affectTargets(Location location) {
+        List<Entity> targets = GeneralMethods.getEntitiesAroundPoint(location, hitbox);
         Iterator var2 = targets.iterator();
-
         while (var2.hasNext()) {
             Entity target = (Entity) var2.next();
             if (target.getUniqueId() != this.player.getUniqueId()) {
-
-                target.setVelocity(this.direction);
                 if (!this.hurt.contains(target)) {
                     DamageHandler.damageEntity(target, damage, this);
                     this.hurt.add(target);
                 }
-
-                target.setVelocity(this.direction);
                 this.remove();
             }
         }
@@ -200,7 +198,7 @@ public class Tinkle extends PissAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return location;
+        return player.getLocation().clone().add(0.0D, 0.47673141357534D, 0.0D);
     }
 
     @Override
@@ -231,7 +229,7 @@ public class Tinkle extends PissAbility implements AddonAbility {
 
     @Override
     public String getVersion() {
-        return "1.0.0";
+        return Pissaddon.getVersion();
     }
     @Override
     public boolean isEnabled() {

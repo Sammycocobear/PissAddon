@@ -52,6 +52,9 @@ public class PissListener implements Listener {
             if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PissWave")) {
                 new PissWave(player);
             }
+            if (bPlayer.getBoundAbilityName().equalsIgnoreCase("PissTrap")) {
+                new PissTrap(player);
+            }
 
         }
     }
@@ -79,6 +82,9 @@ public class PissListener implements Listener {
                 }
                 if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Tinkle")) {
                     new Tinkle(player);
+                }
+                if(CoreAbility.hasAbility(player, PissTrap.class) && bPlayer.getBoundAbilityName().equalsIgnoreCase("PissTrap")) {
+                    CoreAbility.getAbility(player, PissTrap.class).bob(player);
                 }
 
             }

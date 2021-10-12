@@ -289,7 +289,7 @@ public class PissWave extends PissAbility implements AddonAbility {
 
     @Override
     public String getVersion() {
-        return "1.0.0";
+        return Pissaddon.getVersion();
     }
 
     @Override

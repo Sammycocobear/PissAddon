@@ -219,7 +219,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
     }
 
     public String getVersion() {
-        return "1.0.0";
+        return Pissaddon.getVersion();
     }
 
     public String getInstructions() {

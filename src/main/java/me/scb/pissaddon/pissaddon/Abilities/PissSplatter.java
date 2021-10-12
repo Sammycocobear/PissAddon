@@ -6,7 +6,10 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -44,6 +47,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     private double angle;
     private double angleIncrease;
     private double particleCount;
+    private int particleSize;
 
     public PissSplatter(Player player) {
         super(player);
@@ -68,6 +72,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
         hitbox = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.hitbox");
         damage = Pissaddon.getPlugin().getConfig().getDouble("ExtraAbilities.Sammycocobear.PissSplatter.damage");
         particleCount = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissSplatter.particleCount");
+        particleSize = Pissaddon.getPlugin().getConfig().getInt("ExtraAbilities.Sammycocobear.PissSplatter.ParticleSize");
         angle = 0;
         angleIncrease = 360 / particleCount;
     }
@@ -98,10 +103,9 @@ public class PissSplatter extends PissAbility implements AddonAbility {
                 vector = vector.multiply(radius);
                 this.location.add(vector);
                 this.affectTargets(location);
-                GeneralMethods.displayColoredParticle("ffff00", this.location);
+                location.getWorld().spawnParticle(Particle.REDSTONE,location,2,0,0,0,0,new Particle.DustOptions(Color.fromRGB(255, 255, 0), 3) );
                 this.location.subtract(vector);
             }
-
         }
     }
 
@@ -154,7 +158,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
     }
 
     public String getVersion() {
-        return "1.0.0";
+        return Pissaddon.getVersion();
     }
 
     public String getDescription() {

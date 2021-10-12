@@ -129,7 +129,7 @@ public class PissSlide extends PissAbility implements AddonAbility {
     }
 
     public String getVersion() {
-        return "1.0.0";
+        return Pissaddon.getVersion();
     }
 
     public String getDescription() {

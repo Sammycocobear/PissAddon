@@ -21,8 +21,6 @@ public class PissSubElement {
             public ChatColor getColor() {
                 return (ChatColor.YELLOW);
             }
-
-
         };
     }
 }

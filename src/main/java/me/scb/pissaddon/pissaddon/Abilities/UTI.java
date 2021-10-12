@@ -164,7 +164,7 @@ private void affectTargets() {
 
     @Override
     public String getVersion() {
-        return "1.0.0";
+        return Pissaddon.getVersion();
     }
 
     public String getInstructions() {
