@@ -14,6 +14,7 @@ import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Panda;
 import org.bukkit.entity.Player;
@@ -105,6 +106,7 @@ public class GoldenShower extends PissAbility implements AddonAbility {
 
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
+            if(target instanceof Arrow) return;
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 DamageHandler.damageEntity(target, damage, this);
             }

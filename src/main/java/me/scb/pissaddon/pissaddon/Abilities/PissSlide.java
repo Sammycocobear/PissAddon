@@ -14,6 +14,7 @@ import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -81,6 +82,7 @@ public class PissSlide extends PissAbility implements AddonAbility {
 
         while(var2.hasNext()) {
             Entity target = (Entity) var2.next();
+            if(target instanceof Arrow) return;
             if (target.getUniqueId() == this.player.getUniqueId()) {
                 target.setVelocity(this.direction);
             }

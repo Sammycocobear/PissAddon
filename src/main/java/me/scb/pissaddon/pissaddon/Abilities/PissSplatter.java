@@ -10,6 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -116,6 +117,7 @@ public class PissSplatter extends PissAbility implements AddonAbility {
 
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
+            if(target instanceof Arrow) return;
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 int knockbackDistance = 0;
                 target.setVelocity(GeneralMethods.getDirection(target.getLocation(), this.location).multiply(knockbackDistance));

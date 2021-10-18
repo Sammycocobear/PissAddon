@@ -20,6 +20,7 @@ import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -154,6 +155,7 @@ public class PissAura extends PissAbility implements AddonAbility, ComboAbility 
 
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
+            if(target instanceof Arrow) return;
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 target.setVelocity(this.direction);
                 if (!this.hurt.contains(target)) {
