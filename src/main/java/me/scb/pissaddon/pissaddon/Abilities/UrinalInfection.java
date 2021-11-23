@@ -9,9 +9,7 @@ import me.scb.pissaddon.pissaddon.Pissaddon;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
 import org.bukkit.potion.PotionEffect;
@@ -114,7 +112,10 @@ public class UrinalInfection extends PissAbility implements AddonAbility {
                     target.setVelocity(this.direction);
                     this.remove();
 
+                }else{
+                    return;
                 }
+
 
             }
         }

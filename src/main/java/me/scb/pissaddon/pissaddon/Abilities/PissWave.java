@@ -5,6 +5,7 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
+import com.projectkorra.projectkorra.util.TempBlock;
 import me.scb.pissaddon.pissaddon.PissAbility;
 import me.scb.pissaddon.pissaddon.PissListener;
 import me.scb.pissaddon.pissaddon.Pissaddon;
@@ -12,6 +13,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -217,7 +219,7 @@ public class PissWave extends PissAbility implements AddonAbility {
 
         while (var2.hasNext()) {
             Entity target = (Entity) var2.next();
-            if( target instanceof Arrow) return;
+            if( target instanceof Arrow || target instanceof FallingBlock) return;
             if (target.getUniqueId() != this.player.getUniqueId()) {
 
                 target.setVelocity(this.direction);

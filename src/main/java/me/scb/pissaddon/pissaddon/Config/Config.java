@@ -47,14 +47,6 @@ public class Config {
 
     }
 
-    public void saveConfig() {
-        try {
-            this.config.options().copyDefaults(true);
-            this.config.save(this.path.toFile());
-        } catch (Exception var2) {
-            var2.printStackTrace();
-        }
 
-    }
 
 }

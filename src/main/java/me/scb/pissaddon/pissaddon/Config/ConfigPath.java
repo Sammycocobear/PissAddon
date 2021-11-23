@@ -170,7 +170,7 @@ public class ConfigPath {
 
 
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Enabled", true);
-        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.radius", 10.0);
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.radius", 1.0);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.duration", 10000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.damage", 1);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.hitbox", 1);
@@ -179,7 +179,7 @@ public class ConfigPath {
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.sourcerange", 15);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.speed", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.range", 10);
-        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.ParticleSize", 2   );
+        config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.ParticleSize", 2);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Cooldown", 10000);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.Paralyze", true);
         config.addDefault("ExtraAbilities.Sammycocobear.PissTrap.particleCount", 20);

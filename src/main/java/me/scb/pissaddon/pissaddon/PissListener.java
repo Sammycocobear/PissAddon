@@ -91,6 +91,7 @@ public class PissListener implements Listener {
         }
     }
 
+    
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPKReload(final BendingReloadEvent event) {
         Bukkit.getScheduler().runTaskLater(Pissaddon.getPlugin(), Pissaddon::reload, 1);

@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
@@ -86,7 +87,7 @@ public class PissStream extends PissAbility implements AddonAbility {
 
         while(var2.hasNext()) {
             Entity target = (Entity)var2.next();
-            if(target instanceof Arrow) return;
+            if( target instanceof Arrow || target instanceof FallingBlock) return;
             if (target.getUniqueId() != this.player.getUniqueId()) {
                 if (!this.hurt.contains(target)) {
                     DamageHandler.damageEntity(target, this.damage, this);

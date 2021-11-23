@@ -1,11 +1,8 @@
 package me.scb.pissaddon.pissaddon.Abilities;
 
-import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.airbending.Suffocate;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.MovementHandler;
 import me.scb.pissaddon.pissaddon.PissAbility;
@@ -16,13 +13,9 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.util.Vector;
 
-import java.util.concurrent.ThreadLocalRandom;
+
 
 public class PissTrap extends PissAbility implements AddonAbility {
     private long cooldown;
@@ -47,7 +40,7 @@ public class PissTrap extends PissAbility implements AddonAbility {
 
     public PissTrap(Player player) {
         super(player);
-        if (!hasAbility(player, PissSwirl.class)) {
+        if (!hasAbility(player, PissTrap.class)) {
             if (!this.bPlayer.isOnCooldown(this)) {
                 if (this.bPlayer.canBend(this)) {
                     setFields();
@@ -149,7 +142,11 @@ public class PissTrap extends PissAbility implements AddonAbility {
 
 
     public void shoot(){
-        shootboolean = true;
+        if(player.isSneaking()) {
+            shootboolean = true;
+        }else {
+            shootboolean = false;
+        }
     }
 
     public static void bob(Player player) {
